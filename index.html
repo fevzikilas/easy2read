@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Papers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #050505;
+            color: #ffc5f7;
+        }
+        ::selection {
+            background-color: rgb(174, 111, 255); /* Seçilen kısmın arka plan rengi */
+            color: #ffb6b6;
+        }
+
+        a {
+            color: #e876ff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+        h1{
+            color: #ff75ca;
+            font-size: 1.8em;
+            text-align: center;
+        }
+        h2 {
+            color: #960000;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .page-content {
+            padding: 20px;
+            background-color: #050505;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .share-links {
+            margin-bottom: 40px;
+        }
+
+        p {
+            line-height: 1.6;
+        }
+
+        
+
+        strong {
+            color: #960055;
+        }
+
+        em {
+            color: #ba95bb;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: #333;
+            margin: 40px 0;
+        }
+
+        img {
+            max-width: 100%;
+            border: 1px solid #333;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        #scrollTopBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ff9800;
+            color: #121212;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        #scrollTopBtn:hover {
+            background-color: #e68900;
+        }
+    </style>
+</head>
+<body>
+    <main class="page-content" aria-label="Content">
+        <div class="wrapper">
+            <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+                <div class="share-links">
+                    <h1 id="ilyas-list-of-ai-papers">AI Papers</h1>
+                    <p>I’ve collected the papers here, along with some key takeaways from each. They are in chronological order to make it easier to see how they build on each other. Most are papers, but a few are books, blog posts, course notes, etc. In any case, it’s a lot of reading! I’ve highlighted a few that I think are particularly worth a look.</p>
+                    <ul>
+                        <li>
+                            <a href="#keeping-neural-networks-simple-by-minimizing-the-description-length-of-the-weights">1993 - Keeping Neural Networks Simple By Minimizing the Description Length of the Weights</a>
+                        </li>
+                        <li>
+                            <a href="#a-tutorial-introduction-to-the-minimum-description-length-principle">2004 - A Tutorial Introduction to the Minimum Description Length Principle</a>
+                        </li>
+                        <li>
+                            <a href="#machine-super-intelligence">2008 - Machine Super Intelligence</a>
+                        </li>
+                        <li>
+                            <a href="#the-first-law-of-complexodynamics">2011 - The First Law of Complexodynamics</a>
+                        </li>
+                        <li>
+                            <a href="#imagenet-classification-with-deep-convolutional-neural-networks">
+                                <strong>2012 - ImageNet Classification with Deep Convolutional Neural Networks</strong>
+                            </a>
+                        </li>
+                        <li>
+                            <strong>
+                                <a href="#neural-turing-machines">2014 - Neural Turing Machines</a>
+                            </strong>
+                        </li>
+                        <li>
+                            <a href="#quantifying-the-rise-and-fall-of-complexity-in-closed-systems">2014 - Quantifying the Rise and Fall of Complexity in Closed Systems</a>
+                        </li>
+                        <li>
+                            <a href="#deep-residual-learning-for-image-recognition">2015 - Deep Residual Learning for Image Recognition</a>
+                        </li>
+                        <li>
+                            <a href="#neural-machine-translation-by-jointly-learning-to-align-and-translate">
+                                <strong>2015 - Neural Machine Translation by Jointly Learning to Align and Translate</strong>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#pointer-networks">2015 - Pointer Networks</a>
+                        </li>
+                        <li>
+                            <a href="#recurrent-neural-network-regularization">2015 - Recurrent Neural Network Regularization</a>
+                        </li>
+                        <li>
+                            <a href="#the-unreasonable-effectiveness-of-recurrent-neural-networks">
+                                <strong>2015 - The Unreasonable Effectiveness of Recurrent Neural Networks</strong>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#understanding-lstm-networks">
+                                <strong>2015 - Understanding LSTM Networks</strong>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#deep-speech-2-end-to-end-speech-recognition-in-english-and-mandarin">2016 - Deep Speech 2: End-to-End Speech Recognition in English and Mandarin</a>
+                        </li>
+                        <li>
+                            <a href="#identity-mappings-in-deep-residual-networks">2016 - Identity Mappings in Deep Residual Networks</a>
+                        </li>
+                        <li>
+                            <a href="#multi-scale-context-aggregation-by-dilated-convolutions">2016 - Multi-Scale Context Aggregation by Dilated Convolutions</a>
+                        </li>
+                        <li>
+                            <a href="#order-matters-sequence-to-sequence-for-sets">2016 - Order Matters: Sequence to sequence for sets</a>
+                        </li>
+                        <li>
+                            <a href="#variational-lossy-autoencoder">2016 - Variational Lossy Autoencoder</a>
+                        </li>
+                        <li>
+                            <a href="#a-simple-neural-network-module-for-relational-reasoning">2017 - A Simple Neural Network Module for Relational Reasoning</a>
+                        </li>
+                        <li>
+                            <strong>
+                                <a href="#attention-is-all-you-need">2017 - Attention is All You Need</a>
+                            </strong>
+                        </li>
+                        <li>
+                            <a href="#kolmogorov-complexity-and-algorithmic-randomness">2017 - Kolmogorov Complexity and Algorithmic Randomness</a>
+                        </li>
+                        <li>
+                            <a href="#neural-message-passing-for-quantum-chemistry">2017 - Neural Message Passing for Quantum Chemistry</a>
+                        </li>
+                        <li>
+                            <a href="#relational-recurrent-neural-networks">2018 - Relational Recurrent Neural Networks</a>
+                        </li>
+                        <li>
+                            <a href="#gpipe-efficient-training-of-giant-neural-networks-using-pipeline-parallelism">2019 - GPipe: Efficient Training of Giant Neural Networks using Pipeline Parallelism</a>
+                        </li>
+                        <li>
+                            <a href="#scaling-laws-for-neural-language-models">
+                                <strong>2020 - Scaling Laws for Neural Language Models</strong>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#cs231n-convolutional-neural-networks-for-visual-recognition">2024 - CS231n Convolutional Neural Networks for Visual Recognition</a>
+                        </li>
+                    </ul>
+                    <h1 id="keeping-neural-networks-simple-by-minimizing-the-description-length-of-the-weights">Keeping Neural Networks Simple by Minimizing the Description Length of the Weights</h1>
+                    <p>
+                        <em>Hinton, Geoffrey E., and Drew Van Camp, 1993</em>
+                        <a target="_blank" href="https://www.cs.toronto.edu/~fritz/absps/colt93.pdf">(PDF)</a>
+                    </p>
+                    <p>
+                        <em>“Supervised neural networks generalize well if there is much less information in the weights than there is in the output vectors of the training cases. So during learning, it is important to keep the weights simple by penalizing the amount of information they contain. The amount of information in a weight can be controlled by adding Gaussian noise and the noise level can be adapted during learning to optimize the trade-off between the expected squared error of the network and the amount of information in the weights. We describe a method of computing the derivatives of the expected squared error and of the amount of information in the noisy weights in a network that contains a layer of non-linear hidden units. Provided the output units are linear, the exact derivatives can be computed efficiently without time-consuming Monte Carlo simulations. The idea of minimizing the amount of information that is required to communicate the weights of a neural network leads to a number of interesting schemes for encoding the weights”</em>
+                     </p>
+                        <p>
+                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
+                        </p>
+                        <p>
+                            A clearly-written intro to the <a  target="_blank" href="https://en.wikipedia.org/wiki/Minimum_description_length">Minimum Description Length Principle</a> 
+                            and its applications to model selection.
+                        </p>
+                        <ul>
+                            <li>
+                                <strong>Learning as data compression</strong>
+                                Every regularity in data may be used to compress that data, and learning can be equated with finding those regularities.
+                            </li>
+                            <li>
+                                <strong>MDL as model selection</strong>
+                                The best model is the one that minimizes the sum of the length of the description of the model and the length of the data encoded using that model.
+                            </li>
+                        </ul>
+                        <h1 id="a-tutorial-introduction-to-the-minimum-description-length-principle">A Tutorial Introduction to the Minimum Description Length Principle</h1>
+                        <p>
+                            <em>Peter Grünwald, 2004</em>
+                            <a href="https://arxiv.org/pdf/math/0406077">(PDF)</a>
+                        </p>
+                        <p>
+                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
+                        </p>
+                        <p>
+                            A clearly-written intro to the <a href="https://en.wikipedia.org/wiki/Minimum_description_length">Minimum Description Length Principle</a> 
+                            and its applications to model selection.
+                        </p>
+                        <ul>
+                            <li>
+                                <strong>Learning as data compression</strong>
+                                Every regularity in data may be used to compress that data, and learning can be equated with finding those regularities.
+                            </li>
+                            <li>
+                                <strong>MDL as model selection</strong>
+                                The best model is the one that minimizes the sum of the length of the description of the model and the length of the data encoded using that model.
+                            </li>
+                        </ul>
+                        <h1 id="machine-super-intelligence">Machine Super Intelligence</h1>
+                        <p>
+                            <em>Legg, Shane, 2008</em>
+                            <a  target="_blank" href="https://www.vetta.org/documents/Machine_Super_Intelligence.pdf">(PDF)</a>
+                        </p>
+                        <p>This thesis sets out to define what it means for an agent to be intelligent. Starting from informal definitions of intelligence, it mathematically defines intelligence in a general, powerful, and elegant way. This leads to the concept of an optimal agent that maximizes its expected reward by interacting with an unknown environment. While not a practical theory – it’s definitions are not computable  – it maybe provides a theoretical framework for understanding real, suboptimal agents.</p>
+                        <p>
+                            <strong style="color: rgb(173, 20, 220);">Takeaways</strong>
+                        </p>
+                        <ul>
+                            <li>“Intelligence measures an agent’s ability to achieve goals in a wide range of environments.”</li>
+                            <li>
+                                The <strong>complexity of an environment</strong>
+                                is the length of the shortest program that generates the environment’s behavior (<a  target="_blank" href="https://en.wikipedia.org/wiki/Kolmogorov_complexity">Kolmogorov complexity</a>
+                                ).
+                            </li>
+                            <li>
+                                Prior probability of an environment decreases exponentially with its complexity (<a  target="_blank" href="https://en.wikipedia.org/wiki/Algorithmic_probability">Algorithmic probability</a>
+                                ). This formalizes Occam’s razor.
+                            </li>
+                            <li>
+                                The <strong>Universal Intelligence</strong>
+                                of an agent is the expected value of its rewards.
+                            </li>
+                            <li>Perfect or “universal agents” maximize their expected reward in any computable environment. While not computable(because Kolmogorov complexity is uncomputable), it provides a theoretical upper bound on the intelligence of computable agents.</li>
+                        </ul>
+                        <h1 id="the-first-law-of-complexodynamics">The First Law of Complexodynamics</h1>
+                        <p>
+                            <em>Scott Aaronson, 2011.</em>
+                            <a  target="_blank" href="https://scottaaronson.blog/?p=762">(Blog Post)</a>
+                        </p>
+                        <p>
+                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
+                        </p>
+                        <p>
+                            Theoretical computer scientist <a  target="_blank" href="https://www.scottaaronson.com/">Scott Aaronson</a>
+                            (complexity theory, quantum computing) tries to pin down what we mean by “complex systems”, and conjectures about what it would mean to define complexity in a rigorous way. He pulls in concepts like entropy and (resource-bounded) Kolmogorov complexity. There are some interesting questions here, but feel free to skip this one if you are looking for practical takeaways.
+                        </p>
+                        <h1 id="imagenet-classification-with-deep-convolutional-neural-networks">ImageNet Classification with Deep Convolutional Neural Networks</h1>
+                        <p>
+                            <em>Krizhevsky, Alex, Ilya Sutskever, and Geoffrey E. Hinton, 2012</em>
+                            <a  target="_blank" href="https://proceedings.neurips.cc/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf">(PDF)</a>
+                        </p>
+                        <p>
+                            <em>
+                                “We trained a <strong>large, deep convolutional neural network</strong>
+                                to classify the 1.2 millionhigh-resolution images in the ImageNet LSVRC-2010 contest into the 1000 different classes. On the test data, we achieved top-1 and top-5 error rates of 37.5% and 17.0% which is considerably better than the previous state-of-the-art. The neural network, which has <strong>60 million parameters and 650,000 neurons</strong>
+                                , consists of <strong>five convolutional layers</strong>
+                                , some of which are followed by max-pooling layers, <strong>and three fully-connected layers</strong>
+                                with a final 1000-way softmax. To make training faster, we used non-saturating neurons and <strong>a very efficient GPU implementation</strong>
+                                of the convolution operation. To reduce overfitting in the fully-connected layers we employed a recently-developed <strong>regularization method called “dropout” that proved to be very effective</strong>
+                                . We also entered a variant of this model in the ILSVRC-2012 competition and achieved a winning top-5 test error rate of 15.3%,compared to 26.2% achieved by the second-best entry.”
+                            </em>
+                        </p>
+                        <p>
+                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
+                        </p>
+                        <ul>
+                            <li>
+                                Introduced <strong>AlexNet, a deep convolutional neural network</strong>
+                                that achieved unprecedented performance in image classification. AlexNet won the ImageNet Large Scale Visual Recognition Challenge in 2012 by a substantial margin, bringing deep learning to the forefront of computer vision research.
+                            </li>
+                            <li>
+                                <strong>Deep Architecture</strong>
+                                AlexNet’s depth – five convolutional and three fully connected layers – allowed the network to learn hierarchical feature representations, capturing complex patterns in the data that were not possible with shallower architectures.
+                            </li>
+                            <li>
+                                <strong>Training with GPUs</strong>
+                                Used GPUs, parallel computation, and ReLU activation functions to speed up training.
+                            </li>
+                        </ul>
+                        <h2 id="neural-turing-machines">Neural Turing Machines</h2>
+                        <p>
+                            <em>Graves, Alex, Greg Wayne, and Ivo Danihelka, 2014</em>
+                            <a  target="_blank" href="https://arxiv.org/pdf/1410.5401">(PDF)</a>
+                        </p>
+                        <p>
+                            <em>
+                                “We extend the capabilities of neural networks by coupling them to <strong>external memory resources</strong>
+                                , which they can <strong>interact with by attentional processes</strong>
+                                . The combined system is analogous to a Turing Machine or Von Neumann architecture but is <strong>differentiable end-to-end</strong>
+                                , allowing it to be <strong>efficiently trained with gradient descent</strong>
+                                . Preliminary results demonstrate that Neural Turing Machines can infer simple algorithms such as copying, sorting, and associative recall from input and output examples”
+                            </em>
+                        </p>
+                        <p>
+                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
+                        </p>
+                        <ul>
+                            <li>
+                                Neural Turing Machines are <strong>fully differentiable computers</strong>
+                                that learn their own programming. Differentiability is the key to efficiently training NTMs with gradient descent.
+                            </li>
+                            <li>Augmenting a NN with external memory addresses a key limitation of vanilla RNNs: their inability to store information for long periods of time.</li>
+                            <li>
+                                <a  target="_blank" href="https://dl.acm.org/doi/abs/10.1145/130385.130432">Earlier work</a>
+                                showed that <strong>RNNs are Turing Complete</strong>
+                                , meaning that in principle they are capable of learning algorithms from examples, but didn’t show how to actually do it.
+                            </li>
+                        </ul>
+                        <h1 id="quantifying-the-rise-and-fall-of-complexity-in-closed-systems">Quantifying the Rise and Fall of Complexity in Closed Systems</h1>
+                        <p>
+                            <em>Aaronson, Carroll, Ouelette, 2014</em>
+                            <a  target="_blank" href="https://arxiv.org/pdf/1405.6903">(PDF)</a>
+                        </p>
+                        <p>
+                            <em>
+                                “<strong>In contrast to entropy, which increases monotonically, the “complexity” or “interestingness” of closed systems seems intuitively to increase at first and then decrease as equilibrium is approached</strong>
+                                . For example, our universe lacked complex structures at the Big Bang and will also lack them after black holes evaporate and particles are dispersed. This paper makes an initial attempt to quantify this pattern. As a model system, we use a simple, two-dimensional cellular automaton that simulates the mixing of two liquids (“coffee” and “cream”). <strong>A plausible complexity measure is then the Kolmogorov complexity of a coarse-grained approximation of the automaton’s state, which we dub the “apparent complexity</strong>
+                                .” We study this complexity  measure, and show analytically that it never becomes large when the liquid particles are noninteracting. By contrast, when the particles do interact, we give numerical evidence that the complexity reaches a maximum comparable to the “coffee cup’s” horizontal dimension. We raise the problem of proving this behavior analytically.”
+                            </em>
+                        </p>
+                        <p>
+                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
+                        </p>
+                        <p>
+                            This paper continues ideas from <a  target="_blank" href="#the-first-law-of-complexodynamics">The First Law of Complexodynamics</a>
+                            . I think you can safely skip it.
+                        </p>
+                        <ul>
+                            <li>
+                                The entropy of an n-bit string is often identified with its <strong>Kolmogorov complexity, i.e., the length of the shortest program that generates the string</strong>
+                                .
+                            </li>
+                            <li>
+                                <strong>Kolmogorov complexity is well-known to be uncomputable</strong>
+                                (equivalent to the halting problem), but can maybe be approximated? <em>“While Kolmogorov complexity and sophistication are useful theoretical notions to model our ideasof entropy and complexity, they cannot be directly applied in numerical simulations, because theyare both uncomputable.”</em>
+                            </li>
+                        </ul>
+                        <h1 id="deep-residual-learning-for-image-recognition">Deep Residual Learning for Image Recognition</h1>
+                        <p>
+                            <em>He, Kaiming, Xiangyu Zhang, Shaoqing Ren, and Jian Sun, 2015</em>
+                            <a  target="_blank" href="https://arxiv.org/pdf/1512.03385">(PDF)</a>
+                        </p>
+                        <p>
+                            <em>
+                                “Deeper neural networks are more difficult to train. We present a residual learning framework to ease the training of <strong>networks that are substantially deeper than those used previously</strong>
+                                . We explicitly <strong>reformulate the layers as learning residual functions</strong>
+                                with reference to the layer inputs, instead of learning unreferenced functions. We provide comprehensive empirical evidence showing that these residual networks are easier to optimize, and can gain accuracy from considerably increased depth. On the ImageNet dataset we evaluate residual nets with a depth of up to 152 layers—8x deeper than VGG nets but still having lower complexity. An ensemble of these residual nets achieves 3.57% error on the ImageNet test set. This result won the <strong>1st place on the ILSVRC 2015 classification task</strong>
+                                . We also present analysis on CIFAR-10 with 100 and 1000 layers.The depth of representations is of central importance for many visual recognition tasks. Solely due to our extremely deep representations, we obtain a 28% relative improvement on the COCO object detection dataset. Deep residual nets are foundations of our submissions to ILSVRC &amp;COCO 2015 competitions, where we also won the <strong>1st places on the tasks of ImageNet detection, ImageNet localization, COCO detection, and COCO segmentation.</strong>
+                                ”
+                            </em>
+                        </p>
+                        <p>
+                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
+                        </p>
+                        <ul>
+                            <li>
+                                <strong>Degradation Problem</strong>
+                                : Additional layers can increase both testing and training error, i.e., not just overfitting. This is counterintuitive because deeper networks could just represent shallower networks by setting some layers to the identity function.
+                            </li>
+                            <li>
+                                <strong>Introduces Residual Networks (ResNets)</strong>
+                                . The core idea is <strong>skip connections</strong>
+                                that bypass one or more layers so that layers represent the residual function F(x) = H(x) - x.
+                            </li>
+                        </ul>
+                        <h1 id="neural-machine-translation-by-jointly-learning-to-align-and-translate">Neural Machine Translation by Jointly Learning to Align and Translate</h1>
+                        <p>
+                            <em>Bahdanau, Dzmitry, Kyunghyun Cho, and Yoshua Bengio, 2015</em>
+                            <a  target="_blank" href="https://arxiv.org/pdf/1409.0473">(PDF)</a>
+                        </p>
+                        <p>
+                            <em>
+                                “Neural machine translation is a recently proposed approach to machine translation. Unlike the traditional statistical machine translation, the neural machine translation aims at building a single neural network that can be jointly tuned to maximize the translation performance. The models proposed recently for neural machine translation often belong to a family of encoder-decoders and consists of an encoder that encodes a source sentence into a fixed-length vector from which a decoder generates a translation. In this paper, <strong>we conjecture that the use of a fixed-length vector is a bottleneck in improving the performance of this basic encoder-decoder architecture, and propose to extend this by allowing a model to automatically (soft-)search for parts of a source sentence that are relevant to predicting a target word</strong>
+                                , without having to form these parts as a hard segment explicitly. With this new approach, we achieve a translation performance comparable to the existing state-of-the-art phrase-based system on the task of English-to-French translation. Furthermore, qualitative analysis reveals that the (soft-)alignments found by the model agree well with our intuition.”
+                            </em>
+                        </p>
+                        <p>
+                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
+                        </p>
+                        <ul>
+                            <li>
+                                <strong>Introduces the Attention Mechanism</strong>
+                                , a major breakthrough in machine translation and many other sequence-to-sequence tasks. The attention mechanism allows the model to focus on different parts of the source sentence while generating each word in the target sentence, addressing the limitations offixed-length context vectors in previous encoder-decoder architectures.
+                            </li>
+                        </ul>
+                        <h1 id="pointer-networks">Pointer Networks</h1>
+                        <p>
+                            <em>Oriol Vinyals, Meire Fortunato, Navdeep Jaitly. 2015</em>
+                            <a  target="_blank" href="https://arxiv.org/pdf/1506.03134">(PDF)</a>
+                        </p>
+                        <p>
+                            <img src="https://mfaulk.github.io/assets/images/ptr_net.png" alt="Pointer Network"/>
+                        </p>
+                        <p>
+                            <em>
+                                “We introduce a <strong>new neural architecture</strong>
+                                to learn the conditional probability of an <strong>output sequence with elements that are discrete tokens corresponding to positions in an input sequence</strong>
+                                . Such problems cannot be trivially addressed by existent approaches such as sequence-to-sequence and Neural Turing Machines, because the number of target classes in each step of the output depends on the length of the input, which is variable. <strong>Problems such as sorting variable sized sequences, and various combinatorial optimization problems belong to this class</strong>
+                                . Our model solves the problem of variable size output dictionaries using a recently proposed mechanism of neural attention. It differs from the previous attention attempts in that, instead of using attention to blend hidden units of an encoder to a context vector at each decoder step, it <strong>uses attention as a pointer to select a member of the input sequence as the output</strong>
+                                . We call this architecture a Pointer Net (Ptr-Net). We show Ptr-Nets can be used to learn approximate solutions to three challenging geometric problems – finding planar convex hulls, computing Delaunay triangulations, and the planar Travelling Salesman Problem – usingtraining examples alone. Ptr-Nets not only improve over sequence-to-sequence with input attention, but also allow us to generalize to variable size output dictionaries. We show that the learnt modelsgeneralize beyond the maximum lengths they were trained on. We hope our results on these tasks will encourage a broader exploration of neural learning for discrete problems.”
+                            </em>
+                        </p>
+                        <p>
+                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
+                        </p>
+                        <ul>
+                            <li>Variable Output Dictionaries: The number of target classes in each step of the output depends on the length of the input, which is variable. Conventional sequence-to-sequence models require a fixed output vocabulary.</li>
+                            <li>
+                                At each step of the output, the model uses <strong>attention over the inputs as a pointer to select a member of the input sequence as the output</strong>
+                                . This allows the model to generalize to variable size output dictionaries.
+                            </li>
+                        </ul>
+                        <h1 id="recurrent-neural-network-regularization">Recurrent Neural Network Regularization</h1>
+                        <p>
+                            <em>Zaremba, Sutskever, Vinyals. 2015</em>
+                            <a  target="_blank" href="https://arxiv.org/pdf/1409.2329">(PDF)</a>
+                        </p>
+                        <p>
+                            <em>
+                                “We present a simple regularization technique for Recurrent Neural Networks (RNNs) with Long Short-Term Memory (LSTM) units. Dropout, the most successful technique for regularizing neural networks, does not work well with RNNs and LSTMs. In this paper, <strong>we show how to correctly apply dropout to LSTMs</strong>
+                                , and show that it substantially reduces overfitting on a variety of tasks. These tasks include language modeling, speech recognition, image caption generation, and machine translation.”
+                            </em>
+                        </p>
+                        <p>
+                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
+                        </p>
+                        <ul>
+                            <li>Applies dropout only to a subset of the RNNs connections.</li>
+                            <li>
+                                <em>“By not using dropout on the recurrent connections, the LSTM can benefit from dropout regularization without sacrificing its valuable memorization ability.”</em>
+                            </li>
+                        </ul>
+                        <h1 id="the-unreasonable-effectiveness-of-recurrent-neural-networks">The Unreasonable Effectiveness of Recurrent Neural Networks</h1>
+                        <p>
+                            <em>Andrej Karpathy, 2015</em>
+                            <a  target="_blank" href="http://karpathy.github.io/2015/05/21/rnn-effectiveness/">(Blog Post)</a>
+                        </p>
+                        <p>This blog post from one of the OpenAI co-founders is a great introduction to the power of Recurrent Neural Networks (RNNs) for sequence modeling. It shows that RNNs are deceptively simple, and demonstrates the power of RNNs to generate reasonable text using only character-by-character predictions. It’s fun to see where generative language models were just a few years ago, and how far they’ve come since.</p>
+                        <p>
+                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
+                        </p>
+                        <ul>
+                            <li>
+                                <em>“If training vanilla neural nets is optimization over functions, training recurrent nets is optimization over programs.”</em>
+                            </li>
+                            <li>Feed-Forward Neural Networks are limited to fixed-sized inputs and fixed-size outputs.</li>
+                            <li>RNNs operate on sequences of arbitrary length, making them well-suited for speech recognition, language modeling, and machine translation.</li>
+                        </ul>
+                        <h1 id="understanding-lstm-networks">Understanding LSTM Networks</h1>
+                        <p>
+                            <em>Christopher Olah, 2015</em>
+                            <a  target="_blank" href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">(Blog Post)</a>
+                        </p>
+                        <p>
+                            This blog post from one of the co-founders of Anthropic is a great introduction to an important type of RNN called <a  target="_blank" href="https://deeplearning.cs.cmu.edu/F23/document/readings/LSTM.pdf">Long Short-Term Memory</a>
+                            (LSTM) networks. In a step-by-step fashion, it explains how the different “gates” of an LSTM unit work together to store and retrieve  information.
+                        </p>
+                        <p>
+                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
+                        </p>
+                        <ul>
+                            <li>
+                                LSTMs improve on RNNs by adding a piece of <strong>hidden state called a memory cell</strong>
+                                that can store information for long periods of time. This improves their ability to learn from long sequences, and makes them well-suited to natural language processing. In contrast, regular RNNs struggle to connect separate pieces of information, say, words that are far apart in a sentence.
+                            </li>
+                            <li>
+                                An LSTM unit contains a <strong>memory cell</strong>
+                                , an <strong>input gate</strong>
+                                , an <strong>output gate</strong>
+                                and a <strong>forget gate</strong>
+                                that regulate the flow of information in and out of the memory cell.
+                            </li>
+                            <li>
+                                Interesting to see an idea (LSTMs) from 1997 returning to the forefront of research activity in 2015. Plenty of things happened in those 18 years, including some pretty <a  target="_blank" href="https://www.flickr.com/photos/jurvetson/51391518506/">dramatic increases in computational power</a>
+                                .
+                            </li>
+                        </ul>
+                        <h1 id="deep-speech-2-end-to-end-speech-recognition-in-english-and-mandarin">Deep Speech 2: End-to-End Speech Recognition in English and Mandarin</h1>
+                        <p>
+                            <em>Amodei, et al. 2016</em>
+                            <a  target="_blank" href="https://arxiv.org/pdf/1512.02595">(PDF)</a>
+                        </p>
+                        <p>
+                            <em>“We show that an end-to-end deep learning approach can be used to recognize either English or Mandarin Chinese speech-two vastly different languages. Because it replaces entire pipelines of hand-engineered components with neural networks, end-to-end learning allows us to handle a diverse variety of speech including noisy environments, accents and different languages. Key to our approach is our application of HPC techniques, enabling experiments that previously took weeks to now run in days. This allows us to iterate more quickly to identify superior architectures and algorithms. As a result, in several cases, our system is competitive with the transcription of human workers when benchmarked on standard datasets. Finally, using a technique called Batch Dispatch with GPUs in the data center, we show that our system can be inexpensively deployed in an online setting, delivering low latency when serving users at scale.”</em>
+                        </p>
+                        <p>
+                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
+                        </p>
+                        <ul>
+                            <li>
+                                <strong>End-to-End Learning</strong>
+                                replaces entire pipelines of hand-engineered components (features, acoustic models, language models, etc.) with neural networks. This is demonstrated on two very different languages: English and Mandarin.
+                            </li>
+                            <li>
+                                <strong>Highly-optimized training system</strong>
+                                with 8 or 16 GPUs.
+                            </li>
+                            <li>Models have around 100 million parameters.</li>
+                        </ul>
+                        <h1 id="identity-mappings-in-deep-residual-networks">Identity Mappings in Deep Residual Networks</h1>
+                        <p>
+                            <em>Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun. 2016</em>
+                            <a  target="_blank" href="https://arxiv.org/pdf/1603.05027">(PDF)</a>
+                        </p>
+                        <p>
+                            <em>
+                                “Deep residual networks have emerged as a family of extremely deep architectures showing compelling accuracy and nice convergence behaviors. In this paper, <strong>we analyze the propagation formulations behind the residual building blocks</strong>
+                                , which suggest that the <strong>forward and backward signals can be directly propagated from one block to any  other block, when using identity mappings as the skip connections and after-addition activation</strong>
+                                . A series of ablation experiments support the importance of these identity mappings. This motivates us to propose a new residual unit, which makes training easier and improves generalization. We report improved results using a 1001-layer ResNet on CIFAR-10 (4.62% error) and CIFAR-100, and a 200-layer ResNet on ImageNet.”
+                            </em>
+                        </p>
+                        <p>
+                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
+                        </p>
+                        <ul>
+                            <li>
+                                The authors build on their previous paper, <a  target="_blank" href="#deep-residual-learning-for-image-recognition">Deep Residual Learning for Image Recognition</a>
+                                , and propose a new residual unit by setting some parts of the  original residual unit to identity mappings. The result is a “residual relation” between every pair of layers,  which gives the forward and backward signals a nice, additive structure.
+                            </li>
+                            <li>Demonstrates new residual units in a 1001-layer ResNet.</li>
+                        </ul>
+                        <h1 id="multi-scale-context-aggregation-by-dilated-convolutions">Multi-Scale Context Aggregation by Dilated Convolutions</h1>
+                        <p>
+                            <em>Fisher Yu, Vladlen Koltun. 2015</em>
+                            <a  target="_blank" href="https://arxiv.org/pdf/1511.07122">(PDF)</a>
+                        </p>
+                        <p>
+                            State-of-the-art models for semantic segmentation are based on adaptations of convolutional networks that had originally been designed for image classification. However, dense prediction and image classification are structurally different. In this work, <strong>we develop a new convolutional network module that is specifically designed for dense prediction</strong>
+                            . The presented module uses <strong>dilated convolutions</strong>
+                            to systematically aggregate multi-scale contextual information without losing resolution. The architecture is based on the fact that <strong>dilated convolutions support exponential expansion of the receptive field without loss of resolution or coverage</strong>
+                            . We show that the presented context module increases the accuracy of state-of-the-art semantic segmentation systems. In addition, we examine the adaptation of image classification networks to dense prediction and show that simplifying the adapted network can increase accuracy.
+                        </p>
+                        <p>
+                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
+                        </p>
+                        <ul>
+                            <li>Semantic segmentation assigns a label to each pixel in the image. This is a different task from image classification, where the goal is to assign a single label to the entire image. However, many semantic segmentation models are based on architectures designed for image classification.</li>
+                            <li>Critically evaluates techniques borrowed from image classification and finds that pooling and subsampling layers may not be a good fit for semantic segmentation.</li>
+                            <li>
+                                Advocates for <strong>dilated convolutions - a type of convolution with gaps between the kernel elements</strong>
+                                . This expands the receptive field without increasing the number of parameters.
+                            </li>
+                        </ul>
+                        <p>
+                            <img src="https://mfaulk.github.io/assets/images/dilatedconvolution.png" alt="Zeebra"/>
+                        </p>
+                        <h1 id="order-matters-sequence-to-sequence-for-sets">Order Matters: Sequence to sequence for sets</h1>
+                        <p>
+                            <em>Oriol Vinyals, Samy Bengio, Manjunath Kudlur. 2015</em>
+                            <a  target="_blank" href="https://arxiv.org/pdf/1511.06391">(PDF)</a>
+                        </p>
+                        <p>
+                            <em>
+                                “Sequences have become first class citizens in supervised learning thanks to the resurgence of recurrent neural networks. Many complex tasks that require mapping from or to a sequence of observations can now be formulated with the sequence-to-sequence (seq2seq) framework which employs the chain rule to efficiently represent the joint probability of sequences. In many cases, however, variable sized inputs and/or outputs might not be naturally expressed as sequences. For instance, it is not clear how to input a set of numbers into a model where the task is to sort them; similarly, we do not know how to organize outputs when they correspond to random variables and the task is to model their unknown joint probability. In this paper, we first show using various examples that the order in which we organize input and/or output data matters significantly when learning an underlying model. We then discuss <strong>an extension of the seq2seq framework that goes beyond sequences and handles input sets in a principled way</strong>
+                                . In addition, we propose a loss which, by searching over possible orders during training, deals with the lack of structure of output sets. We show empirical evidence of our claims regarding ordering, and on the modifications to the seq2seq framework on benchmark language modeling and parsing tasks, as well as two artificial tasks – sorting numbers and estimating the joint probability of unknown graphical models.”
+                            </em>
+                        </p>
+                        <p>
+                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
+                        </p>
+                        <ul>
+                            <li>Seq2Seq models are inherently order-sensitive, but tasks like sorting are inherently not order-sensitive.</li>
+                            <li>
+                                Read-Process-Write creates a <strong>permutation-invariant embedding of the input</strong>
+                                . This is fed to an LSTM Pointer Network
+                            </li>
+                            <li>Handles unordered output by searching over possible orders during training. This feels funky…</li>
+                        </ul>
+                        <h1 id="variational-lossy-autoencoder">Variational Lossy Autoencoder</h1>
+                        <p>
+                            <em>Chen, et al. 2016</em>
+                            <a  target="_blank" href="https://arxiv.org/pdf/1611.02731">(PDF)</a>
+                        </p>
+                        <p>
+                            <em>
+                                “Representation learning seeks to expose certain aspects of observed data in a learned representation that’s amenable to downstream tasks like classification. For instance, a good representation for 2D images might be one that describes only global structure and discards information about detailed texture. In this paper, we present a simple but principled method to <strong>learn such global representations by combining Variational Autoencoder (VAE) with neural autoregressive models such as RNN, MADE and PixelRNN/CNN</strong>
+                                . Our proposed VAE model allows us to have control over what the global latent code can learn and, by designing the architecture accordingly, we can force the global latent code to discard irrelevant information such as texture in 2D images, and hence the VAE only “autoencodes” data in a lossy fashion. In addition, by leveraging autoregressive models as both prior distribution p(z) and decoding distribution p(x|z), we can greatly improve generative modeling performance of VAEs, achieving new state-of-the-art results on MNIST, OMNIGLOT and Caltech-101 Silhouettes density estimation tasks.”
+                            </em>
+                        </p>
+                        <p>
+                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
+                        </p>
+                        <ul>
+                            <li>TODO</li>
+                        </ul>
+                        <h1 id="a-simple-neural-network-module-for-relational-reasoning">A Simple Neural Network Module for Relational Reasoning</h1>
+                        <p>
+                            <em>Santoro, et al. 2017</em>
+                            <a  target="_blank" href="https://arxiv.org/pdf/1706.01427">(PDF)</a>
+                        </p>
+                        <p>
+                            <img src="https://mfaulk.github.io/assets/images/rn_fig2.png" alt="Relational Reasoning"/>
+                        </p>
+                        <p>
+                            “
+                            <em>
+                                Relational reasoning is a central component of generally intelligent behavior, but has provendifficult for neural networks to learn. In this paper we describe how to use Relation Networks(RNs) as <strong>a simple plug-and-play module to solve problems that fundamentally hinge on relationalreasoning</strong>
+                                . We tested RN-augmented networks on three tasks: visual question answeringusing a challenging dataset called CLEVR, on which we achieve state-of-the-art, super-humanperformance; text-based question answering using the bAbI suite of tasks; and complex reasoningabout dynamic physical systems. Then, using a curated dataset called Sort-of-CLEVR we showthat <strong>powerful convolutional networks do not have a general capacity to solve relational questions</strong>
+                                , but can gain this capacity when augmented with RNs. <strong>Our work shows how a deep learning architecture equipped with an RN module can implicitly discover and learn to reason about entities and their relations</strong>
+                                .
+                            </em>
+                            ”
+                        </p>
+                        <p>
+                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
+                        </p>
+                        <ul>
+                            <li>
+                                <strong>Relational reasoning</strong>
+                                is the ability to understand, infer, and manipulate the relationships between different entities or pieces of information.
+                            </li>
+                            <li>
+                                Achieves super-human performance on the <a  target="_blank" href="https://cs.stanford.edu/people/jcjohns/clevr/">CLEVR</a>
+                                visual reasoning task.
+                            </li>
+                            <li>RNs constrain the functional form of a NN so that it captures common properties of relational reasoning, in the same way that convolutional layers capture translational invariance, or recurrent layers capture sequential dependencies.</li>
+                            <li>RNs operate on a set of objects, and learn (pairwise) relations between them.</li>
+                        </ul>
+                        <h1 id="attention-is-all-you-need">Attention is All You Need</h1>
+                        <p>
+                            <em>Vaswani, Shazeer, Parmar, Uszkoreit, Jones, Gomez, Kaiser, Polosukhin. 2017</em>
+                        </p>
+                        <p>
+                            <a  target="_blank" href="https://nlp.seas.harvard.edu/annotated-transformer/">(Helpfully Annotated Paper)</a>
+                            <a  target="_blank" href="https://arxiv.org/pdf/1706.03762">(Original Paper)</a>
+                        </p>
+                        <p>
+                            “The dominant sequence transduction models are based on complex recurrent orconvolutional neural networks that include an encoder and a decoder. The bestperforming models also connect the encoder and decoder through an attentionmechanism. <strong>We propose a new simple network architecture, the Transformer,based solely on attention mechanisms, dispensing with recurrence and convolutionsentirely.</strong>
+                            Experiments on two machine translation tasks show…”
+                        </p>
+                        <p>
+                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
+                        </p>
+                        <ul>
+                            <li>
+                                <strong>Transformer architecture</strong>
+                                removes the recurrent (sequential) connections of RNNs. This allows efficient, parallel training with GPUs.
+                            </li>
+                            <li>
+                                The <strong>self-attention mechanism</strong>
+                                enables the model to weigh the importance of different words in a sentence, regardless of their position. This allows for capturing long-range dependencies and relationships more effectively than RNNs.
+                            </li>
+                        </ul>
+                        <h1 id="kolmogorov-complexity-and-algorithmic-randomness">Kolmogorov Complexity and Algorithmic Randomness</h1>
+                        <p>
+                            <em>“Looking at a sequence of zeros and ones, we often feel that it is not random, that is, it is not plausible as an outcome of fair coin tossing. Why? The answer is provided by algorithmic information theory: because the sequence is compressible, that is, it has small complexity or, equivalently, can be produced by a short program. This idea, going back to Solomonoff, Kolmogorov, Chaitin, Levin, and others, is now the starting point of algorithmic information theory. The first part of this book is a textbook-style exposition of the basic notions of complexity and randomness; the second part covers some recent work done by participants of the “Kolmogorov seminar” in Moscow (started by Kolmogorov himself in the 1980s) and their colleagues.”</em>
+                        </p>
+                        <p>
+                            <a  target="_blank" href="https://www.lirmm.fr/~ashen/kolmbook-eng-scan.pdf">(PDF)</a>
+                        </p>
+                        <p>
+                            This is a substantial book, and I’ve only skimmed it. I’d suggest looking at <a  target="_blank" href="https://link.springer.com/content/pdf/10.1007/978-3-030-11298-1.pd">An Introduction to Kolmogorov Complexity and Its Applications</a>
+                            instead.
+                        </p>
+                        <p>
+                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
+                        </p>
+                        <ul>
+                            <li>Kolmogorov Complexity is a universal definition for the complexity, or quantity of information, in an object.</li>
+                            <li>This differs from Shannon’s Entropy, which is the amount of information that needs to be communicated in order to select an object from a known list of alternatives (symbols).</li>
+                        </ul>
+                        <h1 id="neural-message-passing-for-quantum-chemistry">Neural Message Passing for Quantum Chemistry</h1>
+                        <p>
+                            <em>Gilmer, et al. 2017</em>
+                            <a  target="_blank" href="https://arxiv.org/pdf/1704.01212">(PDF)</a>
+                        </p>
+                        <p>
+                            <img src="https://mfaulk.github.io/assets/images/mpnn_fig_1.png" alt="Message Passing Neural Networks"/>
+                        </p>
+                        <p>
+                            <em>
+                                “Supervised learning on molecules has incredible potential to be useful in chemistry, drug discovery, and materials science. Luckily, several promising and closely related neural network models invariant to molecular symmetries have already been described in the literature. <strong>These models learn a message passing algorithm and aggregation procedure to compute a function of their entire input graph</strong>
+                                . At this point, the next step is to find a particularly effective variant of this general approach and apply it to chemical prediction benchmarks until we either solve them or reach the limits of the approach. In this paper, we reformulate existing models into a singl common framework we call Message Passing Neural Networks (MPNNs) and explore additional novel variations within this framework. Using MPNNs we demonstrate state of the art results on an important molecula property prediction benchmark; these results are strong enough that we believe future work should focus on datasets with larger molecules or more accurate ground truth labels.”
+                            </em>
+                        </p>
+                        <p>
+                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
+                        </p>
+                        <ul>
+                            <li>
+                                <strong>Message Passing Neural Networks (MPNNs)</strong>
+                                abstracts commonalities of several models for graph-based data. Nodes iteratively pass messages to their neighbors, who aggregate these messages and update their own state. Finally, a readout function maps the final node states to the graph’s global state.
+                            </li>
+                            <li>
+                                Uses <a  target="_blank" href="https://arxiv.org/abs/1511.06391">set2set</a>
+                                to produce a readout that is invariant to graph order.
+                            </li>
+                        </ul>
+                        <h1 id="relational-recurrent-neural-networks">Relational Recurrent Neural Networks</h1>
+                        <p>
+                            <em>Santoro, Adam, et al. 2018</em>
+                            <a  target="_blank" href="https://arxiv.org/pdf/1806.01822">(PDF)</a>
+                        </p>
+                        <p>
+                            <em>
+                                “Memory-based neural networks model temporal data by leveraging an ability to remember information for long periods. It is unclear, however, whether they also have an ability to perform complex relational reasoning with the information they remember. Here, we first confirm our intuitions that standard memory architectures may struggle at tasks that heavily involve an understanding of the ways in which entities are connected – i.e., tasks involving relational reasoning. We then improve upon these deficits by using a <strong>new memory module – a Relational Memory Core (RMC) – which employs multi-head dot product attention to allow memories to interact</strong>
+                                . Finally, we test the RMC on a suite of tasks that may profit from more capable relational reasoning across sequential information, and show large gains in RL domains (e.g. Mini PacMan), program evaluation, and language modeling, achieving state-of-the-art results on the WikiText-103, Project Gutenberg, and GigaWord datasets.”
+                            </em>
+                        </p>
+                        <p>
+                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
+                        </p>
+                        <ul>
+                            <li>“[A]n architectural backbone upon which a model can learn to compartmentalize information, and learn to computeinteractions between compartmentalized information.”</li>
+                            <li>Relational Memory Core (RMC) maintains a matrix of row-wise memories. Updates are via attention over previousmemories and input.</li>
+                            <li>The memory matrix can be viewed as the matrix of cell states in a 2D-LSTM.</li>
+                        </ul>
+                        <h1 id="gpipe-efficient-training-of-giant-neural-networks-using-pipeline-parallelism">GPipe: Efficient Training of Giant Neural Networks using Pipeline Parallelism</h1>
+                        <p>
+                            <em>Hung, et al. 2018</em>
+                            <a  target="_blank" href="https://arxiv.org/pdf/1811.06965">(PDF)</a>
+                            <a  target="_blank" href="https://research.google/blog/introducing-gpipe-an-open-source-library-for-efficiently-training-large-scale-neural-network-models/">(Blog)</a>
+                        </p>
+                        <p>
+                            <img src="https://mfaulk.github.io/assets/images/gpipe.png" alt="Micro-batch pipelining"/>
+                        </p>
+                        <p>
+                            <em>
+                                “Scaling up deep neural network capacity has been known as an effective approach to improving model quality for several different machine learning tasks. In many cases, increasing model capacity beyond the memory limit of a single accelerator has required developing special algorithms or infrastructure. These solutions are often architecture-specific and do not transfer to other tasks. To address the need for efficient and task-independent model parallelism, we introduce <strong>GPipe, a pipeline parallelism library that allows scaling any network that can be expressed as a sequence of layers</strong>
+                                . By pipelining different sub-sequences of layers on separate accelerators, GPipe provides the flexibility of scaling a variety of different networks to gigantic sizes efficiently. Moreover, GPipe utilizes a novel batch-splitting pipelining algorithm, resulting in almost linear speedup when a model is partitioned across multiple accelerators. We demonstrate the advantages of GPipe by training large-scale neural networks on two different tasks with distinct network architectures: (i) Image Classification: We train a 557-million-parameter AmoebaNet model and attain a top-1 accuracy of 84.4% on ImageNet-2012, (ii) Multilingual Neural Machine Translation: <strong>We train a single 6-billion-parameter, 128-layer Transformer model on a corpus spanning over 100 languages and achieve better quality than all bilingual models</strong>
+                                .”
+                            </em>
+                        </p>
+                        <p>
+                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
+                        </p>
+                        <ul>
+                            <li>Increasing model size generally improves model performance, but model growth is outstripping hardware growth.</li>
+                            <li>
+                                GPipe is a distributed machine learning <a  target="_blank" href="https://github.com/tensorflow/lingvo/blob/master/lingvo/core/gpipe.py">library</a>
+                                that uses synchronous stochastic gradient descent and <strong>pipeline parallelism</strong>
+                                for training on multiple accelerators.
+                            </li>
+                            <li>Forward pass: mini-batches are split into micro-batches and pipelined across accelerators. Backward pass: gradients are accumulated across micro-batches.</li>
+                        </ul>
+                        <h1 id="scaling-laws-for-neural-language-models">Scaling Laws for Neural Language Models</h1>
+                        <p>
+                            <em>Kaplan, et al. 2020</em>
+                            <a  target="_blank" href="https://arxiv.org/pdf/2001.08361">(PDF)</a>
+                        </p>
+                        <p>
+                            <em>
+                                “We study empirical scaling laws for language model performance on the cross-entropy loss. <strong>The loss scales as a power-law with model size, dataset size, and the amount of compute used for training</strong>
+                                , with some trends spanning more than seven orders of magnitude. Other architectural details such as network width or depth have minimal effects within a wide range. Simple equations govern the dependence of overfitting on model/dataset size and the dependence of training speed on model size. These relationships allow us to determine the <strong>optimal allocation of a fixed compute budget</strong>
+                                . Larger models are significantly more sample-efficient, such that <strong>optimally compute-efficient training involves training very large models on a relatively modest amount of data and stopping significantly before convergence.</strong>
+                                ”
+                            </em>
+                        </p>
+                        <p>
+                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
+                        </p>
+                        <ul>
+                            <li>
+                                <strong>“Language modeling performance improves smoothly and predictably as we appropriately scale up model size, data, and compute.”</strong>
+                            </li>
+                            <li>
+                                Language model (Transformer) <strong>performance depends most strongly on scale</strong>
+                                : model size, dataset size, and compute resources.
+                            </li>
+                            <li>
+                                Performance has a smooth <a  target="_blank" href="https://en.wikipedia.org/wiki/Power_law">power-law</a>
+                                relationship with each scale factor (implying diminishing marginal returns with increasing scale).
+                            </li>
+                            <li>Performance has “very weak dependence on many architectural and optimization hyper-parameters.”</li>
+                            <li>
+                                “Our results strongly suggest that larger models will continue to perform better, and will also be much moresample efficient than has been previously appreciated. <strong>Big models may be more important than big data</strong>
+                                .”
+                            </li>
+                        </ul>
+                        <p>
+                            <strong>
+                                CAVEAT: <a  target="_blank" href="https://www.lesswrong.com/posts/midXmMb2Xg37F2Kgn/new-scaling-laws-for-large-language-models">Not everyone agrees with these scaling laws.</a>
+                            </strong>
+                        </p>
+                        <h1 id="cs231n-convolutional-neural-networks-for-visual-recognition">CS231n Convolutional Neural Networks for Visual Recognition</h1>
+                        <p>
+                            <a  target="_blank" href="https://cs231n.github.io/">(2024 Course Notes)</a>
+                        </p>
+                        <p>“This course is a deep dive into the details of deep learning architectures with a focus on learning end-to-end models for these tasks, particularly image classification.”</p>
+                        <p>
+                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
+                        </p>
+                        <p>The course notes contain excellent treatment of the fundamentals of neural networks, including:</p>
+                        <ul>
+                            <li>
+                                <a  target="_blank" href="https://cs231n.github.io/neural-networks-1/">The neuron model and NN architectures</a>
+                            </li>
+                            <li>
+                                <a  target="_blank" href="https://cs231n.github.io/optimization-2/">Backpropagation</a>
+                            </li>
+                            <li>
+                                <a  target="_blank" href="https://cs231n.github.io/optimization-1/">Gradient Descent for learning</a>
+                            </li>
+                        </ul>
+                        <hr>
+                       
+                    </div>
+                </article>
+            </div>
+        </main>
+       
+    </body>
+</html>
