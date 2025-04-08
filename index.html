@@ -4,95 +4,809 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Papers</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
+        /* Theme Variables */
+        :root {
+            --bg-color: #0a0a18;
+            --text-color: #e8d5ff;
+            --heading-color: #ff65d4;
+            --link-color: #c576ff;
+            --strong-color: #ff3980;
+            --em-color: #a4c2ff;
+            --card-bg: #10102a;
+            --card-border: #252562;
+            --accent-color: #8034eb;
+            --selection-bg: rgb(174, 111, 255);
+            --selection-color: #ffb6b6;
+            --scrollbar-thumb: #444;
+            --scrollbar-track: #111;
+            --toc-bg: rgba(16, 16, 42, 0.95);
+            --toc-hover: #1e1e4d;
+            --toggle-bg: #222;
+            --toggle-dot: #ff75ca;
+            --insight-bg: rgba(128, 52, 235, 0.15);
+            --progress-bar-color: linear-gradient(90deg, #8034eb, #ff3980);
+            --code-bg: #111;
+            --button-bg: #8034eb;
+            --button-hover: #9c5aff;
+            --tag-bg: rgba(128, 52, 235, 0.2);
+            --bookmark-icon: #ff75ca;
+        }
+
+        /* Additional themes */
+        [data-theme="light"] {
+            --bg-color: #f5f5ff;
+            --text-color: #333355;
+            --heading-color: #7a0094;
+            --link-color: #8800cc;
+            --strong-color: #e30078;
+            --em-color: #4b66b0;
+            --card-bg: #ffffff;
+            --card-border: #d0d0ff;
+            --accent-color: #8034eb;
+            --selection-bg: rgb(174, 111, 255);
+            --selection-color: #ffffff;
+            --scrollbar-thumb: #c5c5c5;
+            --scrollbar-track: #f1f1f1;
+            --toc-bg: rgba(255, 255, 255, 0.9);
+            --toc-hover: #f0f0ff;
+            --toggle-bg: #e0e0e0;
+            --toggle-dot: #9c00c7;
+            --insight-bg: rgba(163, 20, 220, 0.08);
+            --progress-bar-color: linear-gradient(90deg, #8034eb, #d4006e);
+            --code-bg: #f0f0ff;
+            --button-bg: #8034eb;
+            --button-hover: #9c5aff;
+            --tag-bg: rgba(128, 52, 235, 0.15);
+            --bookmark-icon: #d4006e;
+        }
+
+        [data-theme="cyberpunk"] {
+            --bg-color: #0a0b1b;
+            --text-color: #00ffea;
+            --heading-color: #ff00a0;
+            --link-color: #ffff00;
+            --strong-color: #ff6600;
+            --em-color: #00ccff;
+            --card-bg: #131629;
+            --card-border: #303076;
+            --accent-color: #00ffea;
+            --selection-bg: #ff00a0;
+            --selection-color: #000000;
+            --scrollbar-thumb: #ff00a0;
+            --scrollbar-track: #131629;
+            --toc-bg: rgba(19, 22, 41, 0.95);
+            --toc-hover: #1e1e4d;
+            --toggle-bg: #303076;
+            --toggle-dot: #00ffea;
+            --insight-bg: rgba(0, 255, 234, 0.1);
+            --progress-bar-color: linear-gradient(90deg, #ff00a0, #00ffea);
+            --code-bg: #0e0f1d;
+            --button-bg: #ff00a0;
+            --button-hover: #ff35b5;
+            --tag-bg: rgba(0, 255, 234, 0.2);
+            --bookmark-icon: #ffff00;
+        }
+
+        [data-theme="nature"] {
+            --bg-color: #0c2818;
+            --text-color: #c1e3c1;
+            --heading-color: #54a759;
+            --link-color: #89d089;
+            --strong-color: #ee8434;
+            --em-color: #47a697;
+            --card-bg: #102d1c;
+            --card-border: #1b4332;
+            --accent-color: #54a759;
+            --selection-bg: #54a759;
+            --selection-color: #ffffff;
+            --scrollbar-thumb: #54a759;
+            --scrollbar-track: #102d1c;
+            --toc-bg: rgba(16, 45, 28, 0.95);
+            --toc-hover: #153823;
+            --toggle-bg: #1b4332;
+            --toggle-dot: #89d089;
+            --insight-bg: rgba(84, 167, 89, 0.1);
+            --progress-bar-color: linear-gradient(90deg, #54a759, #89d089);
+            --code-bg: #0a2015;
+            --button-bg: #54a759;
+            --button-hover: #6ec273;
+            --tag-bg: rgba(84, 167, 89, 0.2);
+            --bookmark-icon: #ee8434;
+        }
+
+        * {
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s, transform 0.3s, box-shadow 0.3s;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #050505;
-            color: #ffc5f7;
+            background: var(--bg-color) url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuXzEiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHdpZHRoPSIxMCIgaGVpZ2h0PSIxMCIgcGF0dGVyblRyYW5zZm9ybT0icm90YXRlKDQ1KSI+PGxpbmUgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEwIiBzdHJva2U9IiMxNTE1MzUiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuXzEpIiBvcGFjaXR5PSIwLjAzIi8+PC9zdmc+') repeat;
+            color: var(--text-color);
+            line-height: 1.7;
+            font-size: 16px;
+            scroll-behavior: smooth;
         }
+
         ::selection {
-            background-color: rgb(174, 111, 255); /* Seçilen kısmın arka plan rengi */
-            color: #ffb6b6;
+            background-color: var(--selection-bg);
+            color: var(--selection-color);
+        }
+
+        ::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--scrollbar-track);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--scrollbar-thumb);
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--link-color);
         }
 
         a {
-            color: #e876ff;
+            color: var(--link-color);
             text-decoration: none;
+            transition: all 0.2s;
         }
 
         a:hover {
             text-decoration: underline;
+            opacity: 0.9;
         }
-        h1{
-            color: #ff75ca;
+
+        h1, h2 {
+            font-weight: 600;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+            line-height: 1.3;
+            scroll-margin-top: 80px;
+        }
+
+        h1 {
+            color: var(--heading-color);
             font-size: 1.8em;
-            text-align: center;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 0.5em;
         }
+
         h2 {
-            color: #960000;
+            color: var(--strong-color);
+            font-size: 1.5em;
         }
 
         ul {
-            padding-left: 20px;
+            padding-left: 25px;
         }
 
         li {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+        
+        .paper-list li {
+            transition: transform 0.3s;
+            padding-left: 5px;
+            position: relative;
+        }
+        
+        .paper-list li:hover {
+            transform: translateX(5px);
+        }
+
+        .paper-list li a::before {
+            content: '';
+            position: absolute;
+            left: -15px;
+            top: 50%;
+            width: 0;
+            height: 2px;
+            background-color: var(--link-color);
+            transform: translateY(-50%);
+            transition: width 0.3s ease;
+        }
+
+        .paper-list li:hover a::before {
+            width: 12px;
         }
 
         .wrapper {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
+            position: relative;
         }
 
         .page-content {
             padding: 20px;
-            background-color: #050505;
+            background-color: var(--bg-color);
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
 
-        .share-links {
-            margin-bottom: 40px;
+        .paper-card {
+            background: linear-gradient(135deg, var(--card-bg), rgba(16, 16, 42, 0.9));
+            border-width: 1px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 20px 30px;
+            margin: 30px 0;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .paper-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--heading-color), var(--accent-color));
+        }
+
+        .paper-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 65%, rgba(255, 255, 255, 0.05) 75%, transparent 85%);
+            pointer-events: none;
+        }
+
+        .paper-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .paper-meta {
+            font-style: italic;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .paper-link {
+            display: inline-flex;
+            align-items: center;
+            margin-left: 10px;
+            border: 1px solid var(--link-color);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .paper-link:hover {
+            background-color: var(--link-color);
+            color: var(--bg-color);
+            text-decoration: none;
+        }
+
+        .paper-link i {
+            margin-right: 5px;
         }
 
         p {
-            line-height: 1.6;
+            line-height: 1.7;
+            margin-bottom: 1em;
         }
 
-        
-
         strong {
-            color: #960055;
+            color: var(--strong-color);
+            font-weight: 600;
         }
 
         em {
-            color: #ba95bb;
+            color: var(--em-color);
+        }
+
+        blockquote {
+            border-left: 3px solid var(--accent-color);
+            margin-left: 0;
+            padding-left: 20px;
+            font-style: italic;
+            color: var(--em-color);
         }
 
         hr {
             border: 0;
             height: 1px;
-            background: #333;
+            background: var(--card-border);
             margin: 40px 0;
         }
 
         img {
             max-width: 100%;
-            border: 1px solid #333;
+            border: 1px solid var(--card-border);
             border-radius: 8px;
+            margin: 20px auto;
+            display: block;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        img:hover {
+            transform: scale(1.02);
+        }
+
+        code {
+            background-color: var(--code-bg);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+        }
+
+        /* Header Styles */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 15px 0;
+            background: linear-gradient(90deg, var(--bg-color), rgba(10, 10, 24, 0.9));
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .site-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--heading-color);
+            margin: 0;
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .site-title i {
+            margin-right: 10px;
+            font-size: 0.9em;
+        }
+
+        .site-title:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            z-index: 1010;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--progress-bar-color);
+            width: 0%;
+            transition: width 0.2s;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: relative;
+            width: 50px;
+            height: 24px;
+            background-color: var(--toggle-bg);
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .theme-toggle:before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--toggle-dot);
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s;
+        }
+
+        [data-theme="light"] .theme-toggle:before {
+            transform: translateX(26px);
+        }
+
+        .theme-icons {
+            position: absolute;
+            display: flex;
+            justify-content: space-between;
+            width: 36px;
+            left: 7px;
+            top: 3px;
+            color: white;
+            font-size: 12px;
+        }
+
+        /* TOC Styles */
+        .toc-toggle {
+            border: none;
+            background: var(--button-bg);
+            color: white;
+            border-radius: 4px;
+            padding: 6px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.2s;
+        }
+
+        .toc-toggle:hover {
+            background-color: var(--button-hover);
+        }
+
+        .toc-container {
+            position: fixed;
+            top: 70px;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background-color: var(--toc-bg);
+            border-radius: 8px;
+            overflow-y: auto;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateX(320px);
+            transition: transform 0.3s;
+            z-index: 990;
+            backdrop-filter: blur(5px);
+        }
+
+        .toc-container.active {
+            transform: translateX(0);
+        }
+
+        .toc-title {
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 16px;
+            color: var(--heading-color);
+        }
+
+        .toc-list {
+            padding-left: 0;
+            list-style-type: none;
+            max-height: calc(100vh - 210px);
+            overflow-y: auto;
+        }
+
+        .toc-list li {
+            margin-bottom: 8px;
+            padding: 5px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+            position: relative;
+        }
+
+        .toc-list li:hover {
+            background-color: var(--toc-hover);
+        }
+
+        .toc-list li.active {
+            background-color: var(--toc-hover);
+            border-left: 3px solid var(--accent-color);
+            padding-left: 10px;
+        }
+
+        .toc-list a {
+            display: block;
+            width: 100%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            padding-right: 20px;
+        }
+
+        .toc-list .paper-year {
+            color: var(--em-color);
+            font-size: 0.8em;
+            margin-right: 5px;
+        }
+
+        .search-container {
+            position: relative;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 15px;
+            padding-right: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--card-border);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-size: 14px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--link-color);
+            box-shadow: 0 0 0 2px rgba(128, 52, 235, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-color);
+            opacity: 0.7;
+        }
+
+        .main-content {
+            padding-top: 70px;
+        }
+
+        /* Insights styling */
+        .insight-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+            padding: 10px 15px;
+            background: linear-gradient(90deg, var(--insight-bg), transparent);
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .insight-header i {
+            font-size: 1.2em;
+        }
+
+        .insight-header strong {
+            color: var(--accent-color);
+        }
+
+        .insight-content {
+            margin-left: 15px;
+            padding-left: 15px;
+            border-left: 1px dashed var(--card-border);
+        }
+
+        /* Button Styles */
+        .custom-button {
+            background-color: var(--button-bg);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.2s;
+        }
+
+        .custom-button:hover {
+            background-color: var(--button-hover);
+        }
+
+        .custom-button i {
+            font-size: 16px;
+        }
+
+        /* Tag styles */
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
             margin: 20px 0;
         }
 
+        .tag {
+            background: linear-gradient(135deg, var(--tag-bg), rgba(128, 52, 235, 0.1));
+            border: 1px solid rgba(128, 52, 235, 0.2);
+            padding: 5px 12px;
+            border-radius: 25px;
+            font-size: 0.85em;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .tag:hover {
+            transform: translateY(-2px);
+            background-color: var(--tag-bg);
+            opacity: 0.9;
+        }
+
+        .tag.active {
+            background: linear-gradient(135deg, var(--accent-color), rgba(128, 52, 235, 0.8));
+            color: var(--bg-color);
+            box-shadow: 0 2px 15px rgba(128, 52, 235, 0.4);
+        }
+
+        /* Bookmark icon */
+        .bookmark-icon {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.3em;
+            color: var(--card-border);
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .bookmark-icon:hover {
+            color: var(--bookmark-icon);
+            transform: scale(1.3) rotate(10deg);
+            text-shadow: 0 0 10px rgba(255, 117, 202, 0.5);
+        }
+
+        .bookmark-icon.active {
+            color: var(--bookmark-icon);
+            animation: pulse-bookmark 2s infinite;
+        }
+
+        @keyframes pulse-bookmark {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        /* Theme selector */
+        .theme-selector {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 980;
+            transform: translateX(100px);
+            opacity: 0;
+            visibility: hidden;
+            transition: transform 0.3s, opacity 0.3s, visibility 0.3s;
+        }
+
+        .theme-selector.active {
+            transform: translateX(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .theme-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s;
+            position: relative;
+            border: 2px solid transparent;
+        }
+
+        .theme-option:hover {
+            transform: scale(1.1);
+        }
+
+        .theme-option.active {
+            border-color: var(--accent-color);
+        }
+
+        .theme-dark {
+            background: linear-gradient(to bottom right, #050505, #350035);
+        }
+
+        .theme-light {
+            background: linear-gradient(to bottom right, #f8f5ff, #e0e0ff);
+        }
+
+        .theme-cyberpunk {
+            background: linear-gradient(to bottom right, #0a0b1b, #ff00a0);
+        }
+
+        .theme-nature {
+            background: linear-gradient(to bottom right, #0c2818, #54a759);
+        }
+
+        .theme-palette-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 80px;
+            background-color: var(--card-bg);
+            color: var(--accent-color);
+            border: 1px solid var(--card-border);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 980;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .theme-palette-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .theme-palette-btn.active {
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+        }
+
+        /* Scroll top button */
         #scrollTopBtn {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background-color: #ff9800;
-            color: #121212;
+            background-color: var(--accent-color);
+            color: white;
             border: none;
             border-radius: 50%;
             width: 50px;
@@ -103,753 +817,1428 @@
             justify-content: center;
             align-items: center;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 980;
+            transition: background-color 0.3s, transform 0.3s;
         }
 
         #scrollTopBtn:hover {
-            background-color: #e68900;
+            background-color: var(--button-hover);
+            transform: translateY(-5px);
+        }
+
+        /* Animation for bookmarked papers */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .paper-card.bookmarked {
+            animation: border-glow 3s infinite, float 6s infinite;
+            border-color: var(--bookmark-icon);
+            border-width: 2px;
+        }
+
+        @keyframes border-glow {
+            0% { border-color: var(--card-border); }
+            50% { border-color: var(--accent-color); }
+            100% { border-color: var(--card-border); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Media queries */
+        @media (max-width: 1280px) {
+            .toc-container {
+                width: 280px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .wrapper {
+                padding: 10px;
+            }
+
+            .header-content {
+                padding: 0 15px;
+            }
+
+            .toc-container {
+                right: 0;
+                top: 0;
+                bottom: 0;
+                border-radius: 0;
+                width: 280px;
+                z-index: 1001;
+            }
+
+            .overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 1000;
+                display: none;
+            }
+
+            .overlay.active {
+                display: block;
+            }
+
+            .theme-palette-btn {
+                bottom: 80px;
+                right: 20px;
+            }
+
+            .theme-selector {
+                bottom: 140px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            body {
+                font-size: 15px;
+            }
+
+            .paper-card {
+                padding: 15px 20px;
+            }
+
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .header-controls {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .paper-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+
+            .paper-link {
+                margin-left: 0;
+            }
+
+            .tags-container {
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
-    <main class="page-content" aria-label="Content">
+    <!-- Reading Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="readingProgress"></div>
+    </div>
+
+    <header class="header">
+        <div class="header-content">
+            <h1 class="site-title"><i class="fas fa-brain"></i> AI Papers Collection</h1>
+            <div class="header-controls">
+                <div class="theme-toggle" id="themeToggle">
+                    <div class="theme-icons">
+                        <i class="fas fa-moon"></i>
+                        <i class="fas fa-sun"></i>
+                    </div>
+                </div>
+                <button class="toc-toggle" id="tocToggle">
+                    <i class="fas fa-list"></i> Contents
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="toc-container" id="tocContainer">
+        <h3 class="toc-title">Table of Contents</h3>
+        <div class="search-container">
+            <input type="text" class="search-input" id="searchInput" placeholder="Search papers...">
+            <i class="fas fa-search search-icon"></i>
+        </div>
+        <ul class="toc-list" id="tocList">
+            <!-- Will be populated by JavaScript -->
+        </ul>
+    </div>
+
+    <main class="page-content main-content" aria-label="Content">
         <div class="wrapper">
-            <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
-                <div class="share-links">
-                    <h1 id="ilyas-list-of-ai-papers">AI Papers</h1>
-                    <p>I’ve collected the papers here, along with some key takeaways from each. They are in chronological order to make it easier to see how they build on each other. Most are papers, but a few are books, blog posts, course notes, etc. In any case, it’s a lot of reading! I’ve highlighted a few that I think are particularly worth a look.</p>
-                    <ul>
-                        <li>
+            <article class="post h-entry">
+                <div>
+                    <h1 id="ai-papers-collection">AI Papers Collection</h1>
+                    <p>I've collected the papers here, along with some key takeaways from each. They are in chronological order to make it easier to see how they build on each other. Most are papers, but a few are books, blog posts, course notes, etc. In any case, it's a lot of reading! I've highlighted a few that I think are particularly worth a look.</p>
+                    
+                    <div class="search-container">
+                        <input type="text" class="search-input" id="mainSearchInput" placeholder="Search papers in collection...">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+
+                    <!-- Category/Tag Filtering -->
+                    <div class="tags-container">
+                        <div class="tag active" data-tag="all"><i class="fas fa-tag"></i> All Papers</div>
+                        <div class="tag" data-tag="deep-learning"><i class="fas fa-network-wired"></i> Deep Learning</div>
+                        <div class="tag" data-tag="nlp"><i class="fas fa-language"></i> NLP</div>
+                        <div class="tag" data-tag="cv"><i class="fas fa-image"></i> Computer Vision</div>
+                        <div class="tag" data-tag="theory"><i class="fas fa-calculator"></i> Theory</div>
+                        <div class="tag" data-tag="bookmarked"><i class="fas fa-bookmark"></i> Bookmarked</div>
+                    </div>
+                    
+                    <ul class="paper-list" id="paperList">
+                        <li data-year="1993" data-tags="theory">
                             <a href="#keeping-neural-networks-simple-by-minimizing-the-description-length-of-the-weights">1993 - Keeping Neural Networks Simple By Minimizing the Description Length of the Weights</a>
                         </li>
-                        <li>
+                        <li data-year="2004" data-tags="theory">
                             <a href="#a-tutorial-introduction-to-the-minimum-description-length-principle">2004 - A Tutorial Introduction to the Minimum Description Length Principle</a>
                         </li>
-                        <li>
+                        <li data-year="2008" data-tags="theory">
                             <a href="#machine-super-intelligence">2008 - Machine Super Intelligence</a>
                         </li>
-                        <li>
+                        <li data-year="2011" data-tags="theory">
                             <a href="#the-first-law-of-complexodynamics">2011 - The First Law of Complexodynamics</a>
                         </li>
-                        <li>
+                        <li data-year="2012" data-tags="deep-learning cv">
                             <a href="#imagenet-classification-with-deep-convolutional-neural-networks">
                                 <strong>2012 - ImageNet Classification with Deep Convolutional Neural Networks</strong>
                             </a>
                         </li>
-                        <li>
+                        <li data-year="2014" data-tags="deep-learning theory">
                             <strong>
                                 <a href="#neural-turing-machines">2014 - Neural Turing Machines</a>
                             </strong>
                         </li>
-                        <li>
+                        <li data-year="2014" data-tags="theory">
                             <a href="#quantifying-the-rise-and-fall-of-complexity-in-closed-systems">2014 - Quantifying the Rise and Fall of Complexity in Closed Systems</a>
                         </li>
-                        <li>
+                        <li data-year="2015" data-tags="deep-learning cv">
                             <a href="#deep-residual-learning-for-image-recognition">2015 - Deep Residual Learning for Image Recognition</a>
                         </li>
-                        <li>
+                        <li data-year="2015" data-tags="deep-learning nlp">
                             <a href="#neural-machine-translation-by-jointly-learning-to-align-and-translate">
                                 <strong>2015 - Neural Machine Translation by Jointly Learning to Align and Translate</strong>
                             </a>
                         </li>
-                        <li>
+                        <li data-year="2015" data-tags="deep-learning nlp">
                             <a href="#pointer-networks">2015 - Pointer Networks</a>
                         </li>
-                        <li>
+                        <li data-year="2015" data-tags="deep-learning nlp">
                             <a href="#recurrent-neural-network-regularization">2015 - Recurrent Neural Network Regularization</a>
                         </li>
-                        <li>
+                        <li data-year="2015" data-tags="deep-learning nlp">
                             <a href="#the-unreasonable-effectiveness-of-recurrent-neural-networks">
                                 <strong>2015 - The Unreasonable Effectiveness of Recurrent Neural Networks</strong>
                             </a>
                         </li>
-                        <li>
+                        <li data-year="2015" data-tags="deep-learning nlp">
                             <a href="#understanding-lstm-networks">
                                 <strong>2015 - Understanding LSTM Networks</strong>
                             </a>
                         </li>
-                        <li>
+                        <li data-year="2016" data-tags="deep-learning nlp">
                             <a href="#deep-speech-2-end-to-end-speech-recognition-in-english-and-mandarin">2016 - Deep Speech 2: End-to-End Speech Recognition in English and Mandarin</a>
                         </li>
-                        <li>
+                        <li data-year="2016" data-tags="deep-learning cv">
                             <a href="#identity-mappings-in-deep-residual-networks">2016 - Identity Mappings in Deep Residual Networks</a>
                         </li>
-                        <li>
+                        <li data-year="2016" data-tags="deep-learning cv">
                             <a href="#multi-scale-context-aggregation-by-dilated-convolutions">2016 - Multi-Scale Context Aggregation by Dilated Convolutions</a>
                         </li>
-                        <li>
+                        <li data-year="2016" data-tags="deep-learning nlp">
                             <a href="#order-matters-sequence-to-sequence-for-sets">2016 - Order Matters: Sequence to sequence for sets</a>
                         </li>
-                        <li>
+                        <li data-year="2016" data-tags="deep-learning cv">
                             <a href="#variational-lossy-autoencoder">2016 - Variational Lossy Autoencoder</a>
                         </li>
-                        <li>
+                        <li data-year="2017" data-tags="deep-learning cv">
                             <a href="#a-simple-neural-network-module-for-relational-reasoning">2017 - A Simple Neural Network Module for Relational Reasoning</a>
                         </li>
-                        <li>
+                        <li data-year="2017" data-tags="deep-learning nlp">
                             <strong>
                                 <a href="#attention-is-all-you-need">2017 - Attention is All You Need</a>
                             </strong>
                         </li>
-                        <li>
+                        <li data-year="2017" data-tags="theory">
                             <a href="#kolmogorov-complexity-and-algorithmic-randomness">2017 - Kolmogorov Complexity and Algorithmic Randomness</a>
                         </li>
-                        <li>
+                        <li data-year="2017" data-tags="deep-learning">
                             <a href="#neural-message-passing-for-quantum-chemistry">2017 - Neural Message Passing for Quantum Chemistry</a>
                         </li>
-                        <li>
+                        <li data-year="2018" data-tags="deep-learning nlp">
                             <a href="#relational-recurrent-neural-networks">2018 - Relational Recurrent Neural Networks</a>
                         </li>
-                        <li>
+                        <li data-year="2019" data-tags="deep-learning">
                             <a href="#gpipe-efficient-training-of-giant-neural-networks-using-pipeline-parallelism">2019 - GPipe: Efficient Training of Giant Neural Networks using Pipeline Parallelism</a>
                         </li>
-                        <li>
+                        <li data-year="2020" data-tags="deep-learning nlp">
                             <a href="#scaling-laws-for-neural-language-models">
                                 <strong>2020 - Scaling Laws for Neural Language Models</strong>
                             </a>
                         </li>
-                        <li>
+                        <li data-year="2024" data-tags="deep-learning cv">
                             <a href="#cs231n-convolutional-neural-networks-for-visual-recognition">2024 - CS231n Convolutional Neural Networks for Visual Recognition</a>
                         </li>
                     </ul>
-                    <h1 id="keeping-neural-networks-simple-by-minimizing-the-description-length-of-the-weights">Keeping Neural Networks Simple by Minimizing the Description Length of the Weights</h1>
-                    <p>
-                        <em>Hinton, Geoffrey E., and Drew Van Camp, 1993</em>
-                        <a target="_blank" href="https://www.cs.toronto.edu/~fritz/absps/colt93.pdf">(PDF)</a>
-                    </p>
-                    <p>
-                        <em>“Supervised neural networks generalize well if there is much less information in the weights than there is in the output vectors of the training cases. So during learning, it is important to keep the weights simple by penalizing the amount of information they contain. The amount of information in a weight can be controlled by adding Gaussian noise and the noise level can be adapted during learning to optimize the trade-off between the expected squared error of the network and the amount of information in the weights. We describe a method of computing the derivatives of the expected squared error and of the amount of information in the noisy weights in a network that contains a layer of non-linear hidden units. Provided the output units are linear, the exact derivatives can be computed efficiently without time-consuming Monte Carlo simulations. The idea of minimizing the amount of information that is required to communicate the weights of a neural network leads to a number of interesting schemes for encoding the weights”</em>
-                     </p>
+                    
+                    <!-- Paper sections start -->
+                    <div class="paper-card" id="keeping-neural-networks-simple-by-minimizing-the-description-length-of-the-weights" data-year="1993" data-tags="theory">
+                        <i class="fas fa-bookmark bookmark-icon" data-paper-id="keeping-neural-networks-simple-by-minimizing-the-description-length-of-the-weights"></i>
+                        <h1>Keeping Neural Networks Simple by Minimizing the Description Length of the Weights</h1>
+                        <div class="paper-meta">
+                            <span><em>Hinton, Geoffrey E., and DrewVan Camp, 1993</em></span>
+                            <a class="paper-link" target="_blank" href="https://www.cs.toronto.edu/~fritz/absps/colt93.pdf">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </a>
+                        </div>
                         <p>
-                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
+                            <em>"Supervised neural networkler, weightlerindeki bilgi miktarı training caselerinin output vektörlerindeki bilgiden çok daha az olduğunda iyi genelleme yaparlar. Bu nedenle öğrenme sırasında, weightlerin içerdiği bilgi miktarını cezalandırarak weightleri basit tutmak önemlidir. Bir weight'teki bilgi miktarı, Gaussian noise eklenerek kontrol edilebilir ve gürültü seviyesi, networkteki beklenen kare hatası ile weightlerdeki bilgi miktarı arasındaki dengeyi optimize etmek için öğrenme sırasında ayarlanabilir. Non-linear hidden unitler içeren bir networkte beklenen kare hatanın ve gürültülü weightlerdeki bilgi miktarının türevlerini hesaplama yöntemini açıklıyoruz. Output unitler linear olduğunda, türevler zaman alıcı Monte Carlo simülasyonları olmadan verimli bir şekilde hesaplanabilir. Bir neural networkün weightlerini iletmek için gereken bilgi miktarını minimize etme fikri, weightleri kodlamak için bir dizi ilginç şema ortaya çıkarır."</em>
                         </p>
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Çıkarımlar</strong>
+                        </div>
                         <p>
-                            A clearly-written intro to the <a  target="_blank" href="https://en.wikipedia.org/wiki/Minimum_description_length">Minimum Description Length Principle</a> 
-                            and its applications to model selection.
+                            Minimum Description Length Principle, bazı verilerin en iyi modelinin, model açıklamasının uzunluğu ile bu model kullanılarak kodlanmış verilerin uzunluğunun toplamını minimize eden model olduğunu belirtir.
                         </p>
                         <ul>
                             <li>
-                                <strong>Learning as data compression</strong>
-                                Every regularity in data may be used to compress that data, and learning can be equated with finding those regularities.
+                                MDL prensibini neural networklere uygulayarak model karmaşıklığını kontrol eder ve overfittingi önler.
                             </li>
                             <li>
-                                <strong>MDL as model selection</strong>
-                                The best model is the one that minimizes the sum of the length of the description of the model and the length of the data encoded using that model.
+                                Weight-sharing kullanarak weightlerin description lengthini minimize eder: Aynı weight, ağdaki birden fazla bağlantıya uygulanarak, serbest parametre sayısını ve dolayısıyla model karmaşıklığını azaltır.
                             </li>
                         </ul>
-                        <h1 id="a-tutorial-introduction-to-the-minimum-description-length-principle">A Tutorial Introduction to the Minimum Description Length Principle</h1>
+                    </div>
+
+                    <div class="paper-card" id="a-tutorial-introduction-to-the-minimum-description-length-principle" data-year="2004" data-tags="theory">
+                        <i class="fas fa-bookmark bookmark-icon" data-paper-id="a-tutorial-introduction-to-the-minimum-description-length-principle"></i>
+                        <h1>A Tutorial Introduction to the Minimum Description Length Principle</h1>
+                        <div class="paper-meta">
+                            <span><em>Peter Grünwald, 2004</em></span>
+                            <a class="paper-link" target="_blank" href="https://arxiv.org/pdf/math/0406077">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </a>
+                        </div>
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Çıkarımlar</strong>
+                        </div>
                         <p>
-                            <em>Peter Grünwald, 2004</em>
-                            <a href="https://arxiv.org/pdf/math/0406077">(PDF)</a>
-                        </p>
-                        <p>
-                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
-                        </p>
-                        <p>
-                            A clearly-written intro to the <a href="https://en.wikipedia.org/wiki/Minimum_description_length">Minimum Description Length Principle</a> 
-                            and its applications to model selection.
+                            <a href="https://en.wikipedia.org/wiki/Minimum_description_length">Minimum Description Length Principle</a> ve bunun model seçimine uygulamalarına açıkça yazılmış bir giriş.
                         </p>
                         <ul>
                             <li>
-                                <strong>Learning as data compression</strong>
-                                Every regularity in data may be used to compress that data, and learning can be equated with finding those regularities.
+                                <strong>Veri sıkıştırma olarak öğrenme</strong>
+                                Verilerdeki her düzenlilik, bu verileri sıkıştırmak için kullanılabilir ve öğrenme, bu düzenlilikleri bulmakla eşdeğer tutulabilir.
                             </li>
                             <li>
-                                <strong>MDL as model selection</strong>
-                                The best model is the one that minimizes the sum of the length of the description of the model and the length of the data encoded using that model.
+                                <strong>Model seçimi olarak MDL</strong>
+                                En iyi model, modelin açıklamasının uzunluğu ile bu model kullanılarak kodlanmış verilerin uzunluğunun toplamını minimize eden modeldir.
                             </li>
                         </ul>
-                        <h1 id="machine-super-intelligence">Machine Super Intelligence</h1>
-                        <p>
-                            <em>Legg, Shane, 2008</em>
-                            <a  target="_blank" href="https://www.vetta.org/documents/Machine_Super_Intelligence.pdf">(PDF)</a>
-                        </p>
-                        <p>This thesis sets out to define what it means for an agent to be intelligent. Starting from informal definitions of intelligence, it mathematically defines intelligence in a general, powerful, and elegant way. This leads to the concept of an optimal agent that maximizes its expected reward by interacting with an unknown environment. While not a practical theory – it’s definitions are not computable  – it maybe provides a theoretical framework for understanding real, suboptimal agents.</p>
-                        <p>
-                            <strong style="color: rgb(173, 20, 220);">Takeaways</strong>
-                        </p>
+                    </div>
+
+                    <div class="paper-card" id="machine-super-intelligence" data-year="2008" data-tags="theory">
+                        <i class="fas fa-bookmark bookmark-icon" data-paper-id="machine-super-intelligence"></i>
+                        <h1>Machine Super Intelligence</h1>
+                        <div class="paper-meta">
+                            <span><em>Legg, Shane, 2008</em></span>
+                            <a class="paper-link" target="_blank" href="https://www.vetta.org/documents/Machine_Super_Intelligence.pdf">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </a>
+                        </div>
+                        <p>Bu tez, bir agent'ın zeki olmasının ne anlama geldiğini tanımlamayı amaçlar. Zekânın resmi olmayan tanımlarından başlayarak, zekâyı matematiksel olarak genel, güçlü ve zarif bir şekilde tanımlar. Bu, bilinmeyen bir ortamla etkileşime girerek beklenen ödülünü maksimize eden optimal bir ajan kavramına yol açar. Pratik bir teori olmasa da – tanımları hesaplanabilir değildir – gerçek, optimal olmayan ajanları anlamak için teorik bir çerçeve sağlayabilir.</p>
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Çıkarımlar</strong>
+                        </div>
                         <ul>
-                            <li>“Intelligence measures an agent’s ability to achieve goals in a wide range of environments.”</li>
+                            <li>"Zekâ, bir agent'ın çok çeşitli ortamlarda hedeflere ulaşma yeteneğini ölçer."</li>
                             <li>
-                                The <strong>complexity of an environment</strong>
-                                is the length of the shortest program that generates the environment’s behavior (<a  target="_blank" href="https://en.wikipedia.org/wiki/Kolmogorov_complexity">Kolmogorov complexity</a>
+                                Bir <strong>ortamın complexity</strong>'si, ortamın davranışını üreten en kısa programın uzunluğudur (<a target="_blank" href="https://en.wikipedia.org/wiki/Kolmogorov_complexity">Kolmogorov complexity</a>
                                 ).
                             </li>
                             <li>
-                                Prior probability of an environment decreases exponentially with its complexity (<a  target="_blank" href="https://en.wikipedia.org/wiki/Algorithmic_probability">Algorithmic probability</a>
-                                ). This formalizes Occam’s razor.
+                                Bir ortamın öncül olasılığı, karmaşıklığı ile üstel olarak azalır (<a target="_blank" href="https://en.wikipedia.org/wiki/Algorithmic_probability">Algorithmic probability</a>
+                                ). Bu, Occam'ın usturasını resmileştirir.
                             </li>
                             <li>
-                                The <strong>Universal Intelligence</strong>
-                                of an agent is the expected value of its rewards.
+                                Bir agent'ın <strong>Universal Intelligence</strong>'ı, ödüllerinin beklenen değeridir.
                             </li>
-                            <li>Perfect or “universal agents” maximize their expected reward in any computable environment. While not computable(because Kolmogorov complexity is uncomputable), it provides a theoretical upper bound on the intelligence of computable agents.</li>
+                            <li>Mükemmel veya "universal agents", herhangi bir hesaplanabilir ortamda beklenen ödüllerini maksimize eder. Hesaplanabilir olmasa da (çünkü Kolmogorov complexity hesaplanamaz), hesaplanabilir ajanların zekâsı üzerinde teorik bir üst sınır sağlar.</li>
                         </ul>
-                        <h1 id="the-first-law-of-complexodynamics">The First Law of Complexodynamics</h1>
+                    </div>
+
+                    <div class="paper-card" id="the-first-law-of-complexodynamics" data-year="2011" data-tags="theory">
+                        <i class="fas fa-bookmark bookmark-icon" data-paper-id="the-first-law-of-complexodynamics"></i>
+                        <h1>The First Law of Complexodynamics</h1>
+                        <div class="paper-meta">
+                            <span><em>Scott Aaronson, 2011.</em></span>
+                            <a class="paper-link" target="_blank" href="https://scottaaronson.blog/?p=762">
+                                <i class="fas fa-blog"></i> Blog Post
+                            </a>
+                        </div>
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Çıkarımlar</strong>
+                        </div>
                         <p>
-                            <em>Scott Aaronson, 2011.</em>
-                            <a  target="_blank" href="https://scottaaronson.blog/?p=762">(Blog Post)</a>
+                            Teorik bilgisayar bilimcisi <a target="_blank" href="https://www.scottaaronson.com/">Scott Aaronson</a>
+                            (complexity theory, quantum computing), "complex systems" ile ne kastettiğimizi belirlemeye çalışır ve karmaşıklığı titiz bir şekilde tanımlamanın ne anlama geleceği hakkında tahminlerde bulunur. Entropi ve (kaynak-sınırlı) Kolmogorov complexity gibi kavramları bir araya getirir. Burada bazı ilginç sorular var, ancak pratik çıkarımlar arıyorsanız bunu atlayabilirsiniz.
                         </p>
-                        <p>
-                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
-                        </p>
-                        <p>
-                            Theoretical computer scientist <a  target="_blank" href="https://www.scottaaronson.com/">Scott Aaronson</a>
-                            (complexity theory, quantum computing) tries to pin down what we mean by “complex systems”, and conjectures about what it would mean to define complexity in a rigorous way. He pulls in concepts like entropy and (resource-bounded) Kolmogorov complexity. There are some interesting questions here, but feel free to skip this one if you are looking for practical takeaways.
-                        </p>
-                        <h1 id="imagenet-classification-with-deep-convolutional-neural-networks">ImageNet Classification with Deep Convolutional Neural Networks</h1>
-                        <p>
-                            <em>Krizhevsky, Alex, Ilya Sutskever, and Geoffrey E. Hinton, 2012</em>
-                            <a  target="_blank" href="https://proceedings.neurips.cc/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf">(PDF)</a>
-                        </p>
+                    </div>
+
+                    <div class="paper-card" id="imagenet-classification-with-deep-convolutional-neural-networks" data-year="2012" data-tags="deep-learning cv">
+                        <i class="fas fa-bookmark bookmark-icon" data-paper-id="imagenet-classification-with-deep-convolutional-neural-networks"></i>
+                        <h1>ImageNet Classification with Deep Convolutional Neural Networks</h1>
+                        <div class="paper-meta">
+                            <span><em>Krizhevsky, Alex, Ilya Sutskever, and Geoffrey E. Hinton, 2012</em></span>
+                            <a class="paper-link" target="_blank" href="https://proceedings.neurips.cc/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </a>
+                        </div>
                         <p>
                             <em>
-                                “We trained a <strong>large, deep convolutional neural network</strong>
-                                to classify the 1.2 millionhigh-resolution images in the ImageNet LSVRC-2010 contest into the 1000 different classes. On the test data, we achieved top-1 and top-5 error rates of 37.5% and 17.0% which is considerably better than the previous state-of-the-art. The neural network, which has <strong>60 million parameters and 650,000 neurons</strong>
-                                , consists of <strong>five convolutional layers</strong>
-                                , some of which are followed by max-pooling layers, <strong>and three fully-connected layers</strong>
-                                with a final 1000-way softmax. To make training faster, we used non-saturating neurons and <strong>a very efficient GPU implementation</strong>
-                                of the convolution operation. To reduce overfitting in the fully-connected layers we employed a recently-developed <strong>regularization method called “dropout” that proved to be very effective</strong>
-                                . We also entered a variant of this model in the ILSVRC-2012 competition and achieved a winning top-5 test error rate of 15.3%,compared to 26.2% achieved by the second-best entry.”
+                                "Biz 1.2 milyon yüksek çözünürlüklü görüntüyü ImageNet LSVRC-2010 yarışmasında 1000 farklı sınıfa ayırmak için <strong>büyük, derin bir convolutional neural network</strong> eğittik. Test verileri üzerinde, önceki state-of-the-art'a göre önemli ölçüde daha iyi olan %37.5 ve %17.0 top-1 ve top-5 hata oranları elde ettik. <strong>60 milyon parametre ve 650.000 nöron</strong> içeren neural network, <strong>beş convolutional layer</strong>'dan oluşmaktadır, bunların bazılarını max-pooling layer'lar takip etmekte ve son olarak 1000 yönlü softmax ile <strong>üç fully-connected layer</strong> bulunmaktadır. Eğitimi hızlandırmak için, doymayan nöronlar ve konvolüsyon işleminin <strong>çok verimli bir GPU implementasyonu</strong> kullandık. Fully-connected layer'larda overfitting'i azaltmak için son zamanlarda geliştirilen ve <strong>çok etkili olduğu kanıtlanan "dropout" adlı bir regularization metodu</strong> kullandık. Ayrıca bu modelin bir varyasyonunu ILSVRC-2012 yarışmasına soktuk ve ikinci en iyi girişin elde ettiği %26.2'ye kıyasla %15.3'lük kazanan bir top-5 test hata oranı elde ettik."
                             </em>
                         </p>
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Çıkarımlar</strong>
+                        </div>
+                        <ul>
+                            <li>
+                                <strong>AlexNet, bir deep convolutional neural network</strong> tanıttı ve image classification'da benzeri görülmemiş bir performans elde etti. AlexNet, 2012'de ImageNet Large Scale Visual Recognition Challenge'ı önemli bir farkla kazanarak, deep learning'i bilgisayarla görü araştırmalarının ön saflarına taşıdı.
+                            </li>
+                            <li>
+                                <strong>Derin Mimari</strong>
+                                AlexNet'in derinliği – beş convolutional ve üç fully connected layer – ağın hiyerarşik özellik temsilleri öğrenmesine olanak tanıdı ve daha sığ mimarilerle mümkün olmayan verilerdeki karmaşık örüntüleri yakaladı.
+                            </li>
+                            <li>
+                                <strong>GPU'larla Eğitim</strong>
+                                Eğitimi hızlandırmak için GPU'lar, paralel hesaplama ve ReLU aktivasyon fonksiyonları kullanıldı.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="paper-card" id="neural-turing-machines" data-year="2014" data-tags="deep-learning theory">
+                        <i class="fas fa-bookmark bookmark-icon" data-paper-id="neural-turing-machines"></i>
+                        <h1>Neural Turing Machines</h1>
+                        <div class="paper-meta">
+                            <span><em>Graves, Alex, Greg Wayne, and Ivo Danihelka, 2014</em></span>
+                            <a class="paper-link" target="_blank" href="https://arxiv.org/pdf/1410.5401">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </a>
+                        </div>
                         <p>
-                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
+                            <em>
+                                "Neural network'lerin yeteneklerini, <strong>attentional process'ler</strong> aracılığıyla etkileşime girebilecekleri <strong>harici bellek kaynaklarına</strong> bağlayarak genişletiyoruz. Birleştirilmiş sistem, bir Turing Makinesi veya Von Neumann mimarisine benzer, ancak <strong>uçtan uca diferansiyellenebilir</strong> olup, <strong>gradient descent ile verimli bir şekilde eğitilebilmesine</strong> olanak tanır. İlk sonuçlar, Neural Turing Machine'lerin kopyalama, sıralama ve ilişkisel hatırlama gibi basit algoritmaları girdi ve çıktı örneklerinden çıkarabildiğini göstermektedir."
+                            </em>
+                        </p>
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Çıkarımlar</strong>
+                        </div>
+                        <ul>
+                            <li>
+                                Neural Turing Machine'ler, kendi programlamalarını öğrenen <strong>tamamen diferansiyellenebilir bilgisayarlardır</strong>. Diferansiyellenebilirlik, NTM'leri gradient descent ile verimli bir şekilde eğitmenin anahtarıdır.
+                            </li>
+                            <li>Bir NN'i harici bellek ile güçlendirmek, klasik RNN'lerin önemli bir sınırlamasını ele alır: bilgiyi uzun süre saklama yetersizliği.</li>
+                            <li>
+                                <a target="_blank" href="https://dl.acm.org/doi/abs/10.1145/130385.130432">Daha önceki çalışmalar</a>, <strong>RNN'lerin Turing Complete</strong> olduğunu, yani prensipte örneklerden algoritmaları öğrenme kabiliyetine sahip olduklarını gösterdi, ancak bunu gerçekte nasıl yapacaklarını göstermedi.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="paper-card" id="quantifying-the-rise-and-fall-of-complexity-in-closed-systems" data-year="2014" data-tags="theory">
+                        <i class="fas fa-bookmark bookmark-icon" data-paper-id="quantifying-the-rise-and-fall-of-complexity-in-closed-systems"></i>
+                        <h1>Quantifying the Rise and Fall of Complexity in Closed Systems</h1>
+                        <div class="paper-meta">
+                            <span><em>Aaronson, Carroll, Ouelette, 2014</em></span>
+                            <a class="paper-link" target="_blank" href="https://arxiv.org/pdf/1405.6903">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </a>
+                        </div>
+                        <p>
+                            <em>
+                                "<strong>Entropinin monoton olarak artmasının aksine, kapalı sistemlerin "karmaşıklığı" veya "ilginçliği" sezgisel olarak önce artıyor ve sonra denge durumuna yaklaştıkça azalıyor görünmektedir</strong>. Örneğin, evrenimiz Büyük Patlama'da karmaşık yapılardan yoksundu ve kara delikler buharlaştıktan ve parçacıklar dağıldıktan sonra da bunlardan yoksun olacak. Bu makale, bu modeli nicelendirmek için ilk girişimde bulunuyor. Model sistem olarak, iki sıvının ("kahve" ve "krema") karışımını simüle eden basit, iki boyutlu bir hücresel otomat kullanıyoruz. <strong>Makul bir karmaşıklık ölçüsü, otomatın durumunun kaba taneli bir yaklaşımının Kolmogorov karmaşıklığıdır; buna "görünür karmaşıklık" diyoruz</strong>. Bu karmaşıklık ölçüsünü inceliyoruz ve sıvı parçacıkları etkileşime girmediğinde karmaşıklığın asla büyük olmadığını analitik olarak gösteriyoruz. Buna karşılık, parçacıklar etkileşime girdiğinde, karmaşıklığın "kahve fincanının" yatay boyutuna benzer bir maksimuma ulaştığına dair sayısal kanıtlar sunuyoruz. Bu davranışı analitik olarak kanıtlama problemini ortaya koyuyoruz."
+                            </em>
+                        </p>
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Çıkarımlar</strong>
+                        </div>
+                        <p>
+                            Bu makale, <a target="_blank" href="#the-first-law-of-complexodynamics">The First Law of Complexodynamics</a> makalesindeki fikirleri devam ettiriyor. Bence bunu güvenle atlayabilirsiniz.
                         </p>
                         <ul>
                             <li>
-                                Introduced <strong>AlexNet, a deep convolutional neural network</strong>
-                                that achieved unprecedented performance in image classification. AlexNet won the ImageNet Large Scale Visual Recognition Challenge in 2012 by a substantial margin, bringing deep learning to the forefront of computer vision research.
+                                Bir n-bit dizinin entropisi genellikle <strong>Kolmogorov complexity ile tanımlanır, yani diziyi üreten en kısa programın uzunluğu</strong> ile.
                             </li>
                             <li>
-                                <strong>Deep Architecture</strong>
-                                AlexNet’s depth – five convolutional and three fully connected layers – allowed the network to learn hierarchical feature representations, capturing complex patterns in the data that were not possible with shallower architectures.
-                            </li>
-                            <li>
-                                <strong>Training with GPUs</strong>
-                                Used GPUs, parallel computation, and ReLU activation functions to speed up training.
+                                <strong>Kolmogorov complexity'nin hesaplanamaz olduğu iyi bilinir</strong> (halting problem ile eşdeğer), ancak belki yaklaşık olarak hesaplanabilir? <em>"Kolmogorov complexity ve sophistication, entropi ve karmaşıklık fikirlerimizi modellemek için yararlı teorik kavramlar olsa da, ikisi de hesaplanamaz olduğundan sayısal simülasyonlarda doğrudan uygulanamaz."</em>
                             </li>
                         </ul>
-                        <h2 id="neural-turing-machines">Neural Turing Machines</h2>
-                        <p>
-                            <em>Graves, Alex, Greg Wayne, and Ivo Danihelka, 2014</em>
-                            <a  target="_blank" href="https://arxiv.org/pdf/1410.5401">(PDF)</a>
-                        </p>
+                    </div>
+
+                    <div class="paper-card" id="deep-residual-learning-for-image-recognition" data-year="2015" data-tags="deep-learning cv">
+                        <i class="fas fa-bookmark bookmark-icon" data-paper-id="deep-residual-learning-for-image-recognition"></i>
+                        <h1>Deep Residual Learning for Image Recognition</h1>
+                        <div class="paper-meta">
+                            <span><em>He, Kaiming, Xiangyu Zhang, Shaoqing Ren, and Jian Sun, 2015</em></span>
+                            <a class="paper-link" target="_blank" href="https://arxiv.org/pdf/1512.03385">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </a>
+                        </div>
                         <p>
                             <em>
-                                “We extend the capabilities of neural networks by coupling them to <strong>external memory resources</strong>
-                                , which they can <strong>interact with by attentional processes</strong>
-                                . The combined system is analogous to a Turing Machine or Von Neumann architecture but is <strong>differentiable end-to-end</strong>
-                                , allowing it to be <strong>efficiently trained with gradient descent</strong>
-                                . Preliminary results demonstrate that Neural Turing Machines can infer simple algorithms such as copying, sorting, and associative recall from input and output examples”
+                                "Daha derin neural network'leri eğitmek daha zordur. <strong>Daha önce kullanılanlardan önemli ölçüde daha derin olan ağların</strong> eğitimini kolaylaştırmak için bir residual learning framework sunuyoruz. Layer'ları, referanssız fonksiyonlar öğrenmek yerine, layer girişlerine referansla <strong>residual function'ları öğrenmek üzere açıkça yeniden formüle ediyoruz</strong>. Bu residual network'lerin optimize edilmesinin daha kolay olduğunu ve önemli ölçüde artan derinlikten doğruluk kazanabileceğini gösteren kapsamlı ampirik kanıtlar sunuyoruz. ImageNet veri setinde, 152 layer derinliğe kadar olan residual network'leri değerlendiriyoruz - VGG ağlarından 8 kat daha derin ama yine de daha düşük karmaşıklığa sahip. Bu residual network'lerin bir ensemble'ı, ImageNet test setinde %3.57 hata elde ediyor. Bu sonuç, <strong>ILSVRC 2015 classification görevinde 1. sırayı kazandı</strong>. Ayrıca CIFAR-10 üzerinde 100 ve 1000 layer'lı analizler de sunuyoruz. Temsillerin derinliği, birçok görsel tanıma görevi için merkezi öneme sahiptir. Sadece son derece derin temsillerimiz sayesinde, COCO nesne algılama veri setinde %28'lik göreceli bir iyileştirme elde ediyoruz. Deep residual network'ler, ILSVRC ve COCO 2015 yarışmalarına yaptığımız başvuruların temelini oluşturuyor; burada ayrıca <strong>ImageNet detection, ImageNet localization, COCO detection ve COCO segmentation görevlerinde de 1. sıraları kazandık.</strong>"
                             </em>
                         </p>
-                        <p>
-                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
-                        </p>
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Çıkarımlar</strong>
+                        </div>
                         <ul>
                             <li>
-                                Neural Turing Machines are <strong>fully differentiable computers</strong>
-                                that learn their own programming. Differentiability is the key to efficiently training NTMs with gradient descent.
+                                <strong>Degradation Problem</strong>: Ek layer'lar hem test hem de eğitim hatasını artırabilir, yani sadece overfitting değil. Bu sezgiye aykırıdır çünkü daha derin ağlar, bazı layer'ları identity function olarak ayarlayarak daha sığ ağları temsil edebilir.
                             </li>
-                            <li>Augmenting a NN with external memory addresses a key limitation of vanilla RNNs: their inability to store information for long periods of time.</li>
                             <li>
-                                <a  target="_blank" href="https://dl.acm.org/doi/abs/10.1145/130385.130432">Earlier work</a>
-                                showed that <strong>RNNs are Turing Complete</strong>
-                                , meaning that in principle they are capable of learning algorithms from examples, but didn’t show how to actually do it.
+                                <strong>Residual Networks (ResNet)'i tanıtıyor</strong>. Temel fikir, bir veya daha fazla layer'ı atlayan ve böylece layer'ların F(x) = H(x) - x residual function'ını temsil etmesini sağlayan <strong>skip connection'lardır</strong>.
                             </li>
                         </ul>
-                        <h1 id="quantifying-the-rise-and-fall-of-complexity-in-closed-systems">Quantifying the Rise and Fall of Complexity in Closed Systems</h1>
-                        <p>
-                            <em>Aaronson, Carroll, Ouelette, 2014</em>
-                            <a  target="_blank" href="https://arxiv.org/pdf/1405.6903">(PDF)</a>
-                        </p>
+                    </div>
+
+                    <div class="paper-card" id="neural-machine-translation-by-jointly-learning-to-align-and-translate" data-year="2015" data-tags="deep-learning nlp">
+                        <i class="fas fa-bookmark bookmark-icon" data-paper-id="neural-machine-translation-by-jointly-learning-to-align-and-translate"></i>
+                        <h1>Neural Machine Translation by Jointly Learning to Align and Translate</h1>
+                        <div class="paper-meta">
+                            <span><em>Bahdanau, Dzmitry, Kyunghyun Cho, and Yoshua Bengio, 2015</em></span>
+                            <a class="paper-link" target="_blank" href="https://arxiv.org/pdf/1409.0473">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </a>
+                        </div>
                         <p>
                             <em>
-                                “<strong>In contrast to entropy, which increases monotonically, the “complexity” or “interestingness” of closed systems seems intuitively to increase at first and then decrease as equilibrium is approached</strong>
-                                . For example, our universe lacked complex structures at the Big Bang and will also lack them after black holes evaporate and particles are dispersed. This paper makes an initial attempt to quantify this pattern. As a model system, we use a simple, two-dimensional cellular automaton that simulates the mixing of two liquids (“coffee” and “cream”). <strong>A plausible complexity measure is then the Kolmogorov complexity of a coarse-grained approximation of the automaton’s state, which we dub the “apparent complexity</strong>
-                                .” We study this complexity  measure, and show analytically that it never becomes large when the liquid particles are noninteracting. By contrast, when the particles do interact, we give numerical evidence that the complexity reaches a maximum comparable to the “coffee cup’s” horizontal dimension. We raise the problem of proving this behavior analytically.”
+                                "Neural machine translation makine çevirisi için yakın zamanda önerilen bir yaklaşımdır. Geleneksel istatistiksel makine çevirisinin aksine, neural machine translation, çeviri performansını en üst düzeye çıkarmak için birlikte ayarlanabilen tek bir neural network oluşturmayı amaçlar. Neural machine translation için son zamanlarda önerilen modeller genellikle encoder-decoder ailesine aittir ve bir kaynak cümleyi, bir decoder'ın çeviri oluşturduğu sabit uzunluklu bir vektöre kodlayan bir encoder'dan oluşur. Bu makalede, <strong>sabit uzunluklu bir vektör kullanımının bu temel encoder-decoder mimarisinin performansını artırmada bir darboğaz olduğunu tahmin ediyor ve bir modelin, bu parçaları açıkça sert bir segment olarak oluşturmak zorunda kalmadan, bir hedef kelimeyi tahmin etmek için kaynak cümlenin ilgili kısımlarını otomatik olarak (yumuşak) aramasına izin vererek bunu genişletmeyi öneriyoruz</strong>. Bu yeni yaklaşımla, İngilizce-Fransızca çevirisi görevinde mevcut state-of-the-art cümle tabanlı sisteme benzer bir çeviri performansı elde ediyoruz. Ayrıca, nitel analiz, model tarafından bulunan (yumuşak) hizalamaların sezgimizle iyi uyuştuğunu ortaya koyuyor."
                             </em>
                         </p>
-                        <p>
-                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
-                        </p>
-                        <p>
-                            This paper continues ideas from <a  target="_blank" href="#the-first-law-of-complexodynamics">The First Law of Complexodynamics</a>
-                            . I think you can safely skip it.
-                        </p>
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Çıkarımlar</strong>
+                        </div>
                         <ul>
                             <li>
-                                The entropy of an n-bit string is often identified with its <strong>Kolmogorov complexity, i.e., the length of the shortest program that generates the string</strong>
-                                .
-                            </li>
-                            <li>
-                                <strong>Kolmogorov complexity is well-known to be uncomputable</strong>
-                                (equivalent to the halting problem), but can maybe be approximated? <em>“While Kolmogorov complexity and sophistication are useful theoretical notions to model our ideasof entropy and complexity, they cannot be directly applied in numerical simulations, because theyare both uncomputable.”</em>
+                                <strong>Attention Mechanism'i tanıtıyor</strong>, makine çevirisi ve diğer birçok sequence-to-sequence görevinde önemli bir atılım. Attention mekanizması, modelin hedef cümledeki her kelimeyi oluştururken kaynak cümlenin farklı bölümlerine odaklanmasına olanak tanıyarak, önceki encoder-decoder mimarilerindeki sabit uzunluklu bağlam vektörlerinin sınırlamalarını ele alır.
                             </li>
                         </ul>
-                        <h1 id="deep-residual-learning-for-image-recognition">Deep Residual Learning for Image Recognition</h1>
-                        <p>
-                            <em>He, Kaiming, Xiangyu Zhang, Shaoqing Ren, and Jian Sun, 2015</em>
-                            <a  target="_blank" href="https://arxiv.org/pdf/1512.03385">(PDF)</a>
-                        </p>
-                        <p>
-                            <em>
-                                “Deeper neural networks are more difficult to train. We present a residual learning framework to ease the training of <strong>networks that are substantially deeper than those used previously</strong>
-                                . We explicitly <strong>reformulate the layers as learning residual functions</strong>
-                                with reference to the layer inputs, instead of learning unreferenced functions. We provide comprehensive empirical evidence showing that these residual networks are easier to optimize, and can gain accuracy from considerably increased depth. On the ImageNet dataset we evaluate residual nets with a depth of up to 152 layers—8x deeper than VGG nets but still having lower complexity. An ensemble of these residual nets achieves 3.57% error on the ImageNet test set. This result won the <strong>1st place on the ILSVRC 2015 classification task</strong>
-                                . We also present analysis on CIFAR-10 with 100 and 1000 layers.The depth of representations is of central importance for many visual recognition tasks. Solely due to our extremely deep representations, we obtain a 28% relative improvement on the COCO object detection dataset. Deep residual nets are foundations of our submissions to ILSVRC &amp;COCO 2015 competitions, where we also won the <strong>1st places on the tasks of ImageNet detection, ImageNet localization, COCO detection, and COCO segmentation.</strong>
-                                ”
-                            </em>
-                        </p>
-                        <p>
-                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
-                        </p>
-                        <ul>
-                            <li>
-                                <strong>Degradation Problem</strong>
-                                : Additional layers can increase both testing and training error, i.e., not just overfitting. This is counterintuitive because deeper networks could just represent shallower networks by setting some layers to the identity function.
-                            </li>
-                            <li>
-                                <strong>Introduces Residual Networks (ResNets)</strong>
-                                . The core idea is <strong>skip connections</strong>
-                                that bypass one or more layers so that layers represent the residual function F(x) = H(x) - x.
-                            </li>
-                        </ul>
-                        <h1 id="neural-machine-translation-by-jointly-learning-to-align-and-translate">Neural Machine Translation by Jointly Learning to Align and Translate</h1>
-                        <p>
-                            <em>Bahdanau, Dzmitry, Kyunghyun Cho, and Yoshua Bengio, 2015</em>
-                            <a  target="_blank" href="https://arxiv.org/pdf/1409.0473">(PDF)</a>
-                        </p>
-                        <p>
-                            <em>
-                                “Neural machine translation is a recently proposed approach to machine translation. Unlike the traditional statistical machine translation, the neural machine translation aims at building a single neural network that can be jointly tuned to maximize the translation performance. The models proposed recently for neural machine translation often belong to a family of encoder-decoders and consists of an encoder that encodes a source sentence into a fixed-length vector from which a decoder generates a translation. In this paper, <strong>we conjecture that the use of a fixed-length vector is a bottleneck in improving the performance of this basic encoder-decoder architecture, and propose to extend this by allowing a model to automatically (soft-)search for parts of a source sentence that are relevant to predicting a target word</strong>
-                                , without having to form these parts as a hard segment explicitly. With this new approach, we achieve a translation performance comparable to the existing state-of-the-art phrase-based system on the task of English-to-French translation. Furthermore, qualitative analysis reveals that the (soft-)alignments found by the model agree well with our intuition.”
-                            </em>
-                        </p>
-                        <p>
-                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
-                        </p>
-                        <ul>
-                            <li>
-                                <strong>Introduces the Attention Mechanism</strong>
-                                , a major breakthrough in machine translation and many other sequence-to-sequence tasks. The attention mechanism allows the model to focus on different parts of the source sentence while generating each word in the target sentence, addressing the limitations offixed-length context vectors in previous encoder-decoder architectures.
-                            </li>
-                        </ul>
-                        <h1 id="pointer-networks">Pointer Networks</h1>
-                        <p>
-                            <em>Oriol Vinyals, Meire Fortunato, Navdeep Jaitly. 2015</em>
-                            <a  target="_blank" href="https://arxiv.org/pdf/1506.03134">(PDF)</a>
-                        </p>
+                    </div>
+
+                    <div class="paper-card" id="pointer-networks" data-year="2015" data-tags="deep-learning nlp">
+                        <i class="fas fa-bookmark bookmark-icon" data-paper-id="pointer-networks"></i>
+                        <h1>Pointer Networks</h1>
+                        <div class="paper-meta">
+                            <span><em>Oriol Vinyals, Meire Fortunato, Navdeep Jaitly. 2015</em></span>
+                            <a class="paper-link" target="_blank" href="https://arxiv.org/pdf/1506.03134">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </a>
+                        </div>
                         <p>
                             <img src="https://mfaulk.github.io/assets/images/ptr_net.png" alt="Pointer Network"/>
                         </p>
                         <p>
                             <em>
-                                “We introduce a <strong>new neural architecture</strong>
-                                to learn the conditional probability of an <strong>output sequence with elements that are discrete tokens corresponding to positions in an input sequence</strong>
-                                . Such problems cannot be trivially addressed by existent approaches such as sequence-to-sequence and Neural Turing Machines, because the number of target classes in each step of the output depends on the length of the input, which is variable. <strong>Problems such as sorting variable sized sequences, and various combinatorial optimization problems belong to this class</strong>
-                                . Our model solves the problem of variable size output dictionaries using a recently proposed mechanism of neural attention. It differs from the previous attention attempts in that, instead of using attention to blend hidden units of an encoder to a context vector at each decoder step, it <strong>uses attention as a pointer to select a member of the input sequence as the output</strong>
-                                . We call this architecture a Pointer Net (Ptr-Net). We show Ptr-Nets can be used to learn approximate solutions to three challenging geometric problems – finding planar convex hulls, computing Delaunay triangulations, and the planar Travelling Salesman Problem – usingtraining examples alone. Ptr-Nets not only improve over sequence-to-sequence with input attention, but also allow us to generalize to variable size output dictionaries. We show that the learnt modelsgeneralize beyond the maximum lengths they were trained on. We hope our results on these tasks will encourage a broader exploration of neural learning for discrete problems.”
+                                "Öğeleri bir giriş dizisindeki konumlara karşılık gelen ayrık token'lar olan bir <strong>çıktı dizisinin koşullu olasılığını öğrenmek için yeni bir neural architecture</strong> sunuyoruz. Bu tür problemler, mevcut sequence-to-sequence ve Neural Turing Machines gibi yaklaşımlarla kolayca ele alınamaz, çünkü çıktının her adımındaki hedef sınıfların sayısı, değişken olan girişin uzunluğuna bağlıdır. <strong>Değişken boyutlu dizileri sıralama ve çeşitli kombinatoryal optimizasyon problemleri bu sınıfa aittir</strong>. Modelimiz, değişken boyutlu çıktı sözlükleri problemini yakın zamanda önerilen neural attention mekanizmasını kullanarak çözer. Daha önceki attention girişimlerinden farkı, her decoder adımında bir encoder'ın gizli birimlerini bir bağlam vektörüne karıştırmak için attention kullanmak yerine, <strong>çıktı olarak giriş dizisinin bir üyesini seçmek için bir işaretçi olarak attention kullanmasıdır</strong>. Bu mimariye bir Pointer Net (Ptr-Net) diyoruz. Ptr-Net'lerin, yalnızca eğitim örneklerini kullanarak üç zorlu geometrik probleme - düzlemsel konveks gövdeleri bulma, Delaunay üçgenlemelerini hesaplama ve düzlemsel Gezgin Satıcı Problemi - yaklaşık çözümler öğrenmek için kullanılabileceğini gösteriyoruz. Ptr-Net'ler sadece giriş dikkatli sequence-to-sequence'ı geliştirmekle kalmaz, aynı zamanda değişken boyutlu çıktı sözlüklerine genelleme yapmamıza da olanak tanır. Öğrenilen modellerin, eğitildikleri maksimum uzunlukların ötesine genelleştirdiğini gösteriyoruz. Bu görevlerdeki sonuçlarımızın, ayrık problemler için neural öğrenmenin daha geniş bir şekilde keşfedilmesini teşvik edeceğini umuyoruz."
                             </em>
                         </p>
-                        <p>
-                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
-                        </p>
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Çıkarımlar</strong>
+                        </div>
                         <ul>
-                            <li>Variable Output Dictionaries: The number of target classes in each step of the output depends on the length of the input, which is variable. Conventional sequence-to-sequence models require a fixed output vocabulary.</li>
+                            <li>Değişken Çıktı Sözlükleri: Çıktının her adımındaki hedef sınıfların sayısı, değişken olan girişin uzunluğuna bağlıdır. Geleneksel sequence-to-sequence modelleri sabit bir çıktı kelime dağarcığı gerektirir.</li>
                             <li>
-                                At each step of the output, the model uses <strong>attention over the inputs as a pointer to select a member of the input sequence as the output</strong>
-                                . This allows the model to generalize to variable size output dictionaries.
+                                Çıktının her adımında, model <strong>çıktı olarak giriş dizisinin bir üyesini seçmek için girişler üzerinde attention'ı bir işaretçi olarak kullanır</strong>. Bu, modelin değişken boyutlu çıktı sözlüklerine genelleme yapmasına olanak tanır.
                             </li>
                         </ul>
-                        <h1 id="recurrent-neural-network-regularization">Recurrent Neural Network Regularization</h1>
-                        <p>
-                            <em>Zaremba, Sutskever, Vinyals. 2015</em>
-                            <a  target="_blank" href="https://arxiv.org/pdf/1409.2329">(PDF)</a>
-                        </p>
+                    </div>
+
+                    <div class="paper-card" id="recurrent-neural-network-regularization" data-year="2015" data-tags="deep-learning nlp">
+                        <i class="fas fa-bookmark bookmark-icon" data-paper-id="recurrent-neural-network-regularization"></i>
+                        <h1>Recurrent Neural Network Regularization</h1>
+                        <div class="paper-meta">
+                            <span><em>Zaremba, Sutskever, Vinyals. 2015</em></span>
+                            <a class="paper-link" target="_blank" href="https://arxiv.org/pdf/1409.2329">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </a>
+                        </div>
                         <p>
                             <em>
-                                “We present a simple regularization technique for Recurrent Neural Networks (RNNs) with Long Short-Term Memory (LSTM) units. Dropout, the most successful technique for regularizing neural networks, does not work well with RNNs and LSTMs. In this paper, <strong>we show how to correctly apply dropout to LSTMs</strong>
-                                , and show that it substantially reduces overfitting on a variety of tasks. These tasks include language modeling, speech recognition, image caption generation, and machine translation.”
+                                "Uzun Kısa Süreli Bellek (LSTM) birimleri ile Recurrent Neural Networks (RNN'ler) için basit bir regularization tekniği sunuyoruz. Neural networklerini düzenlemek için en başarılı teknik olan dropout, RNN'ler ve LSTM'ler ile iyi çalışmaz. Bu makalede, <strong>dropout'un LSTM'lere nasıl doğru şekilde uygulanacağını gösteriyor</strong> ve bunun çeşitli görevlerde aşırı uyumu önemli ölçüde azalttığını gösteriyoruz. Bu görevler arasında dil modelleme, konuşma tanıma, görüntü başlığı oluşturma ve makine çevirisi yer alır."
                             </em>
                         </p>
-                        <p>
-                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
-                        </p>
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Çıkarımlar</strong>
+                        </div>
                         <ul>
-                            <li>Applies dropout only to a subset of the RNNs connections.</li>
+                            <li>Dropout'u yalnızca RNN'lerin bağlantılarının bir alt kümesine uygular.</li>
                             <li>
-                                <em>“By not using dropout on the recurrent connections, the LSTM can benefit from dropout regularization without sacrificing its valuable memorization ability.”</em>
+                                <em>"Tekrarlayan bağlantılarda dropout kullanmayarak, LSTM değerli hafıza yeteneğinden ödün vermeden dropout düzenlemesinden yararlanabilir."</em>
                             </li>
                         </ul>
-                        <h1 id="the-unreasonable-effectiveness-of-recurrent-neural-networks">The Unreasonable Effectiveness of Recurrent Neural Networks</h1>
-                        <p>
-                            <em>Andrej Karpathy, 2015</em>
-                            <a  target="_blank" href="http://karpathy.github.io/2015/05/21/rnn-effectiveness/">(Blog Post)</a>
-                        </p>
-                        <p>This blog post from one of the OpenAI co-founders is a great introduction to the power of Recurrent Neural Networks (RNNs) for sequence modeling. It shows that RNNs are deceptively simple, and demonstrates the power of RNNs to generate reasonable text using only character-by-character predictions. It’s fun to see where generative language models were just a few years ago, and how far they’ve come since.</p>
-                        <p>
-                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
-                        </p>
+                    </div>
+
+                    <div class="paper-card" id="the-unreasonable-effectiveness-of-recurrent-neural-networks" data-year="2015" data-tags="deep-learning nlp">
+                        <i class="fas fa-bookmark bookmark-icon" data-paper-id="the-unreasonable-effectiveness-of-recurrent-neural-networks"></i>
+                        <h1>The Unreasonable Effectiveness of Recurrent Neural Networks</h1>
+                        <div class="paper-meta">
+                            <span><em>Andrej Karpathy, 2015</em></span>
+                            <a class="paper-link" target="_blank" href="http://karpathy.github.io/2015/05/21/rnn-effectiveness/">
+                                <i class="fas fa-blog"></i> Blog Post
+                            </a>
+                        </div>
+                        <p>OpenAI'nin kurucu ortaklarından birinin bu blog yazısı, dizi modellemesi için Recurrent Neural Networks (RNN'ler) gücüne harika bir giriştir. RNN'lerin aldatıcı bir şekilde basit olduğunu gösterir ve RNN'lerin yalnızca karakterden karaktere tahminler kullanarak makul metin oluşturma gücünü gösterir. Üretken dil modellerinin birkaç yıl önce nerede olduğunu ve o zamandan beri ne kadar ilerlediğini görmek eğlenceli.</p>
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Çıkarımlar</strong>
+                        </div>
                         <ul>
                             <li>
-                                <em>“If training vanilla neural nets is optimization over functions, training recurrent nets is optimization over programs.”</em>
+                                <em>"Vanilla neural networkleri eğitmek fonksiyonlar üzerinde optimizasyonsa, recurrent networkleri eğitmek programlar üzerinde optimizasyondur."</em>
                             </li>
-                            <li>Feed-Forward Neural Networks are limited to fixed-sized inputs and fixed-size outputs.</li>
-                            <li>RNNs operate on sequences of arbitrary length, making them well-suited for speech recognition, language modeling, and machine translation.</li>
+                            <li>Feed-Forward Neural Networks, sabit boyutlu girişler ve sabit boyutlu çıkışlarla sınırlıdır.</li>
+                            <li>RNN'ler keyfi uzunluktaki diziler üzerinde çalışır, bu da onları konuşma tanıma, dil modelleme ve makine çevirisi için uygun hale getirir.</li>
                         </ul>
-                        <h1 id="understanding-lstm-networks">Understanding LSTM Networks</h1>
+                    </div>
+
+                    <div class="paper-card" id="understanding-lstm-networks" data-year="2015" data-tags="deep-learning nlp">
+                        <i class="fas fa-bookmark bookmark-icon" data-paper-id="understanding-lstm-networks"></i>
+                        <h1>Understanding LSTM Networks</h1>
+                        <div class="paper-meta">
+                            <span><em>Christopher Olah, 2015</em></span>
+                            <a class="paper-link" target="_blank" href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">
+                                <i class="fas fa-blog"></i> Blog Post
+                            </a>
+                        </div>
                         <p>
-                            <em>Christopher Olah, 2015</em>
-                            <a  target="_blank" href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">(Blog Post)</a>
+                            Anthropic'in kurucu ortaklarından birinin bu blog yazısı, <a target="_blank" href="https://deeplearning.cs.cmu.edu/F23/document/readings/LSTM.pdf">Long Short-Term Memory</a> (LSTM) networks adı verilen önemli bir RNN türüne harika bir giriştir. Adım adım bir şekilde, bir LSTM biriminin farklı "gate"lerinin bilgiyi depolamak ve almak için nasıl birlikte çalıştığını açıklar.
                         </p>
-                        <p>
-                            This blog post from one of the co-founders of Anthropic is a great introduction to an important type of RNN called <a  target="_blank" href="https://deeplearning.cs.cmu.edu/F23/document/readings/LSTM.pdf">Long Short-Term Memory</a>
-                            (LSTM) networks. In a step-by-step fashion, it explains how the different “gates” of an LSTM unit work together to store and retrieve  information.
-                        </p>
-                        <p>
-                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
-                        </p>
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Çıkarımlar</strong>
+                        </div>
                         <ul>
                             <li>
-                                LSTMs improve on RNNs by adding a piece of <strong>hidden state called a memory cell</strong>
-                                that can store information for long periods of time. This improves their ability to learn from long sequences, and makes them well-suited to natural language processing. In contrast, regular RNNs struggle to connect separate pieces of information, say, words that are far apart in a sentence.
+                                LSTM'ler, bilgiyi uzun süre depolayabilen <strong>memory cell adı verilen bir gizli durum</strong> ekleyerek RNN'leri geliştirir. Bu, uzun dizilerden öğrenme yeteneklerini artırır ve onları doğal dil işleme için uygun hale getirir. Buna karşılık, normal RNN'ler, diyelim ki bir cümlede birbirinden uzak olan kelimeler gibi ayrı bilgi parçalarını bağlamakta zorlanır.
                             </li>
                             <li>
-                                An LSTM unit contains a <strong>memory cell</strong>
-                                , an <strong>input gate</strong>
-                                , an <strong>output gate</strong>
-                                and a <strong>forget gate</strong>
-                                that regulate the flow of information in and out of the memory cell.
+                                Bir LSTM birimi, bilginin memory cell'e girişini ve çıkışını düzenleyen bir <strong>memory cell</strong>, bir <strong>input gate</strong>, bir <strong>output gate</strong> ve bir <strong>forget gate</strong> içerir.
                             </li>
                             <li>
-                                Interesting to see an idea (LSTMs) from 1997 returning to the forefront of research activity in 2015. Plenty of things happened in those 18 years, including some pretty <a  target="_blank" href="https://www.flickr.com/photos/jurvetson/51391518506/">dramatic increases in computational power</a>
-                                .
+                                1997'den bir fikrin (LSTM'ler) 2015'te araştırma faaliyetinin ön saflarına dönmesini görmek ilginçtir. Bu 18 yılda, <a target="_blank" href="https://www.flickr.com/photos/jurvetson/51391518506/">hesaplama gücündeki oldukça dramatik artışlar</a> da dahil olmak üzere pek çok şey oldu.
                             </li>
                         </ul>
-                        <h1 id="deep-speech-2-end-to-end-speech-recognition-in-english-and-mandarin">Deep Speech 2: End-to-End Speech Recognition in English and Mandarin</h1>
+                    </div>
+
+                    <div class="paper-card" id="deep-speech-2-end-to-end-speech-recognition-in-english-and-mandarin" data-year="2016" data-tags="deep-learning nlp">
+                        <i class="fas fa-bookmark bookmark-icon" data-paper-id="deep-speech-2-end-to-end-speech-recognition-in-english-and-mandarin"></i>
+                        <h1>Deep Speech 2: End-to-End Speech Recognition in English and Mandarin</h1>
+                        <div class="paper-meta">
+                            <span><em>Amodei, et al. 2016</em></span>
+                            <a class="paper-link" target="_blank" href="https://arxiv.org/pdf/1512.02595">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </a>
+                        </div>
                         <p>
-                            <em>Amodei, et al. 2016</em>
-                            <a  target="_blank" href="https://arxiv.org/pdf/1512.02595">(PDF)</a>
+                            <em>"End-to-end deep learning yaklaşımının İngilizce veya Mandarin Çincesi konuşmasını tanımak için kullanılabileceğini gösteriyoruz - birbirinden çok farklı iki dil. El ile tasarlanmış bileşenlerden oluşan tüm pipeline'ları neural network'lerle değiştirdiği için, end-to-end learning gürültülü ortamlar, aksanlar ve farklı diller dahil çeşitli konuşmaları ele almamıza olanak tanır. Yaklaşımımızın anahtarı, daha önce haftalar süren deneylerin şimdi günler içinde çalışmasını sağlayan HPC tekniklerini uygulamamızdır. Bu, üstün mimariler ve algoritmalar belirlemek için daha hızlı iterasyon yapmamıza olanak tanır. Sonuç olarak, birçok durumda, sistemimiz standart veri setlerinde insan çalışanların transkripsiyonu ile rekabet edebilir durumdadır. Son olarak, data center'daki GPU'larla Batch Dispatch adlı bir teknik kullanarak, sistemimizin ölçekli kullanıcılara hizmet verirken düşük gecikme süresiyle çevrimiçi bir ortamda uygun maliyetle devreye alınabileceğini gösteriyoruz."</em>
                         </p>
-                        <p>
-                            <em>“We show that an end-to-end deep learning approach can be used to recognize either English or Mandarin Chinese speech-two vastly different languages. Because it replaces entire pipelines of hand-engineered components with neural networks, end-to-end learning allows us to handle a diverse variety of speech including noisy environments, accents and different languages. Key to our approach is our application of HPC techniques, enabling experiments that previously took weeks to now run in days. This allows us to iterate more quickly to identify superior architectures and algorithms. As a result, in several cases, our system is competitive with the transcription of human workers when benchmarked on standard datasets. Finally, using a technique called Batch Dispatch with GPUs in the data center, we show that our system can be inexpensively deployed in an online setting, delivering low latency when serving users at scale.”</em>
-                        </p>
-                        <p>
-                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
-                        </p>
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Çıkarımlar</strong>
+                        </div>
                         <ul>
                             <li>
                                 <strong>End-to-End Learning</strong>
-                                replaces entire pipelines of hand-engineered components (features, acoustic models, language models, etc.) with neural networks. This is demonstrated on two very different languages: English and Mandarin.
+                                el ile tasarlanmış bileşenlerden oluşan tüm pipeline'ları (özellikler, akustik modeller, dil modelleri vb.) neural network'lerle değiştirir. Bu, iki çok farklı dil üzerinde gösterilmiştir: İngilizce ve Mandarin.
                             </li>
                             <li>
-                                <strong>Highly-optimized training system</strong>
-                                with 8 or 16 GPUs.
+                                <strong>Yüksek düzeyde optimize edilmiş eğitim sistemi</strong>
+                                8 veya 16 GPU ile.
                             </li>
-                            <li>Models have around 100 million parameters.</li>
+                            <li>Modeller yaklaşık 100 milyon parametre içerir.</li>
                         </ul>
-                        <h1 id="identity-mappings-in-deep-residual-networks">Identity Mappings in Deep Residual Networks</h1>
-                        <p>
-                            <em>Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun. 2016</em>
-                            <a  target="_blank" href="https://arxiv.org/pdf/1603.05027">(PDF)</a>
-                        </p>
+                    </div>
+
+                    <div class="paper-card" id="identity-mappings-in-deep-residual-networks" data-year="2016" data-tags="deep-learning cv">
+                        <i class="fas fa-bookmark bookmark-icon" data-paper-id="identity-mappings-in-deep-residual-networks"></i>
+                        <h1>Identity Mappings in Deep Residual Networks</h1>
+                        <div class="paper-meta">
+                            <span><em>Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun. 2016</em></span>
+                            <a class="paper-link" target="_blank" href="https://arxiv.org/pdf/1603.05027">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </a>
+                        </div>
                         <p>
                             <em>
-                                “Deep residual networks have emerged as a family of extremely deep architectures showing compelling accuracy and nice convergence behaviors. In this paper, <strong>we analyze the propagation formulations behind the residual building blocks</strong>
-                                , which suggest that the <strong>forward and backward signals can be directly propagated from one block to any  other block, when using identity mappings as the skip connections and after-addition activation</strong>
-                                . A series of ablation experiments support the importance of these identity mappings. This motivates us to propose a new residual unit, which makes training easier and improves generalization. We report improved results using a 1001-layer ResNet on CIFAR-10 (4.62% error) and CIFAR-100, and a 200-layer ResNet on ImageNet.”
+                                "Deep residual network'ler, etkileyici doğruluk ve güzel yakınsama davranışları gösteren son derece derin mimariler olarak ortaya çıkmıştır. Bu makalede, <strong>residual building block'ların arkasındaki yayılma formülasyonlarını analiz ediyoruz</strong>
+                                , bu da <strong>identity mapping'leri skip connection'lar ve ekleme sonrası aktivasyon olarak kullanırken, ileri ve geri sinyallerin bir bloktan diğer herhangi bir bloğa doğrudan yayılabileceğini</strong>
+                                 gösteriyor. Bir dizi ablasyon deneyi, bu identity mapping'lerin önemini destekliyor. Bu bizi, eğitimi kolaylaştıran ve genellemeyi iyileştiren yeni bir residual unit önermeye teşvik ediyor. CIFAR-10 (%4.62 hata) ve CIFAR-100 üzerinde 1001 katmanlı bir ResNet ve ImageNet üzerinde 200 katmanlı bir ResNet kullanarak iyileştirilmiş sonuçlar bildiriyoruz."
                             </em>
                         </p>
-                        <p>
-                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
-                        </p>
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Çıkarımlar</strong>
+                        </div>
                         <ul>
                             <li>
-                                The authors build on their previous paper, <a  target="_blank" href="#deep-residual-learning-for-image-recognition">Deep Residual Learning for Image Recognition</a>
-                                , and propose a new residual unit by setting some parts of the  original residual unit to identity mappings. The result is a “residual relation” between every pair of layers,  which gives the forward and backward signals a nice, additive structure.
+                                Yazarlar, önceki makaleleri olan <a target="_blank" href="#deep-residual-learning-for-image-recognition">Deep Residual Learning for Image Recognition</a>
+                                 üzerine inşa ederek, orijinal residual unit'in bazı kısımlarını identity mapping'lere ayarlayarak yeni bir residual unit öneriyorlar. Sonuç, her katman çifti arasında ileri ve geri sinyallere güzel, ekleyici bir yapı sağlayan bir "residual ilişkisi"dir.
                             </li>
-                            <li>Demonstrates new residual units in a 1001-layer ResNet.</li>
+                            <li>1001 katmanlı bir ResNet'te yeni residual unit'leri gösteriyor.</li>
                         </ul>
-                        <h1 id="multi-scale-context-aggregation-by-dilated-convolutions">Multi-Scale Context Aggregation by Dilated Convolutions</h1>
+                    </div>
+
+                    <div class="paper-card" id="multi-scale-context-aggregation-by-dilated-convolutions" data-year="2016" data-tags="deep-learning cv">
+                        <i class="fas fa-bookmark bookmark-icon" data-paper-id="multi-scale-context-aggregation-by-dilated-convolutions"></i>
+                        <h1>Multi-Scale Context Aggregation by Dilated Convolutions</h1>
+                        <div class="paper-meta">
+                            <span><em>Fisher Yu, Vladlen Koltun. 2015</em></span>
+                            <a class="paper-link" target="_blank" href="https://arxiv.org/pdf/1511.07122">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </a>
+                        </div>
                         <p>
-                            <em>Fisher Yu, Vladlen Koltun. 2015</em>
-                            <a  target="_blank" href="https://arxiv.org/pdf/1511.07122">(PDF)</a>
+                            Semantic segmentation(anlamsal bölütleme) için state-of-the-art modeller, orijinalinde image classification için tasarlanmış olan convolutional network'lerin adaptasyonlarına dayanmaktadır. Ancak, yoğun tahmin ve görüntü sınıflandırması yapısal olarak farklıdır. Bu çalışmada, <strong>özellikle yoğun tahmin için tasarlanmış yeni bir convolutional network modülü geliştiriyoruz</strong>
+                            . Sunulan modül, çözünürlük kaybetmeden çok ölçekli bağlamsal bilgileri sistematik olarak toplamak için <strong>dilated convolution'ları</strong>
+                            kullanır. Mimari, <strong>dilated convolution'ların çözünürlük veya kapsam kaybı olmadan alıcı alanın üstel genişlemesini desteklediği</strong>
+                            gerçeğine dayanmaktadır. Sunulan bağlam modülünün state-of-the-art semantic segmentation sistemlerinin doğruluğunu artırdığını gösteriyoruz. Ayrıca, image classification ağlarının yoğun tahmine adaptasyonunu inceliyor ve adapte edilen ağı basitleştirmenin doğruluğu artırabileceğini gösteriyoruz.
                         </p>
-                        <p>
-                            State-of-the-art models for semantic segmentation are based on adaptations of convolutional networks that had originally been designed for image classification. However, dense prediction and image classification are structurally different. In this work, <strong>we develop a new convolutional network module that is specifically designed for dense prediction</strong>
-                            . The presented module uses <strong>dilated convolutions</strong>
-                            to systematically aggregate multi-scale contextual information without losing resolution. The architecture is based on the fact that <strong>dilated convolutions support exponential expansion of the receptive field without loss of resolution or coverage</strong>
-                            . We show that the presented context module increases the accuracy of state-of-the-art semantic segmentation systems. In addition, we examine the adaptation of image classification networks to dense prediction and show that simplifying the adapted network can increase accuracy.
-                        </p>
-                        <p>
-                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
-                        </p>
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Çıkarımlar</strong>
+                        </div>
                         <ul>
-                            <li>Semantic segmentation assigns a label to each pixel in the image. This is a different task from image classification, where the goal is to assign a single label to the entire image. However, many semantic segmentation models are based on architectures designed for image classification.</li>
-                            <li>Critically evaluates techniques borrowed from image classification and finds that pooling and subsampling layers may not be a good fit for semantic segmentation.</li>
+                            <li>Semantic segmentation görüntüdeki her piksele bir etiket atar. Bu, tüm görüntüye tek bir etiket atamayı amaçlayan image classification'dan farklı bir görevdir. Bununla birlikte, birçok semantic segmentation modeli, image classification için tasarlanmış mimarilere dayanmaktadır.</li>
+                            <li>Image classification'dan ödünç alınan teknikleri kritik olarak değerlendirir ve pooling ve subsampling katmanlarının semantic segmentation için iyi bir uyum olmayabileceğini bulur.</li>
                             <li>
-                                Advocates for <strong>dilated convolutions - a type of convolution with gaps between the kernel elements</strong>
-                                . This expands the receptive field without increasing the number of parameters.
+                                <strong>Çekirdek elemanları arasında boşluklar olan bir konvolüsyon türü olan dilated convolution'ları</strong>
+                                 savunur. Bu, parametre sayısını artırmadan alıcı alanı genişletir.
                             </li>
                         </ul>
                         <p>
                             <img src="https://mfaulk.github.io/assets/images/dilatedconvolution.png" alt="Zeebra"/>
                         </p>
-                        <h1 id="order-matters-sequence-to-sequence-for-sets">Order Matters: Sequence to sequence for sets</h1>
-                        <p>
-                            <em>Oriol Vinyals, Samy Bengio, Manjunath Kudlur. 2015</em>
-                            <a  target="_blank" href="https://arxiv.org/pdf/1511.06391">(PDF)</a>
-                        </p>
+                    </div>
+
+                    <div class="paper-card" id="order-matters-sequence-to-sequence-for-sets" data-year="2016" data-tags="deep-learning nlp">
+                        <i class="fas fa-bookmark bookmark-icon" data-paper-id="order-matters-sequence-to-sequence-for-sets"></i>
+                        <h1>Order Matters: Sequence to sequence for sets</h1>
+                        <div class="paper-meta">
+                            <span><em>Oriol Vinyals, Samy Bengio, Manjunath Kudlur. 2015</em></span>
+                            <a class="paper-link" target="_blank" href="https://arxiv.org/pdf/1511.06391">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </a>
+                        </div>
                         <p>
                             <em>
-                                “Sequences have become first class citizens in supervised learning thanks to the resurgence of recurrent neural networks. Many complex tasks that require mapping from or to a sequence of observations can now be formulated with the sequence-to-sequence (seq2seq) framework which employs the chain rule to efficiently represent the joint probability of sequences. In many cases, however, variable sized inputs and/or outputs might not be naturally expressed as sequences. For instance, it is not clear how to input a set of numbers into a model where the task is to sort them; similarly, we do not know how to organize outputs when they correspond to random variables and the task is to model their unknown joint probability. In this paper, we first show using various examples that the order in which we organize input and/or output data matters significantly when learning an underlying model. We then discuss <strong>an extension of the seq2seq framework that goes beyond sequences and handles input sets in a principled way</strong>
-                                . In addition, we propose a loss which, by searching over possible orders during training, deals with the lack of structure of output sets. We show empirical evidence of our claims regarding ordering, and on the modifications to the seq2seq framework on benchmark language modeling and parsing tasks, as well as two artificial tasks – sorting numbers and estimating the joint probability of unknown graphical models.”
+                                "Diziler, recurrent neural networkların yeniden ortaya çıkışı sayesinde supervised learning'de birinci sınıf vatandaşlar haline gelmiştir. Bir dizi gözlemden veya gözleme haritalama gerektiren birçok karmaşık görev, artık dizilerin ortak olasılığını verimli bir şekilde temsil etmek için chain rule kullanan sequence-to-sequence (seq2seq) çerçevesiyle formüle edilebilir. Ancak, birçok durumda, değişken boyutlu girdiler ve/veya çıktılar doğal olarak diziler şeklinde ifade edilemeyebilir. Örneğin, görevi onları sıralamak olan bir modele bir dizi sayıyı nasıl gireceğimiz açık değildir; benzer şekilde, çıktılar random variable'lara karşılık geldiğinde ve görev bunların bilinmeyen joint probability'sini modellemek olduğunda, çıktıları nasıl düzenleyeceğimizi bilmiyoruz. Bu makalede, öncelikle çeşitli örnekler kullanarak, altta yatan bir modeli öğrenirken girdi ve/veya çıktı verilerini düzenlediğimiz sıranın önemli ölçüde önemli olduğunu gösteriyoruz. Ardından, <strong>seq2seq çerçevesinin ötesine geçen ve girdi setlerini ilkeli bir şekilde ele alan bir uzantıyı</strong> tartışıyoruz. Ayrıca, eğitim sırasında olası sıralar üzerinde arama yaparak, çıktı kümelerinin yapı eksikliğiyle başa çıkan bir loss öneriyoruz. Sıralamaya ilişkin iddialarımızın ampirik kanıtlarını ve seq2seq çerçevesindeki değişiklikleri, benchmark language modeling ve parsing görevlerinin yanı sıra iki yapay görev üzerinde - sayıları sıralama ve bilinmeyen graphical modellerin joint probability'sini tahmin etme - gösteriyoruz."
                             </em>
                         </p>
-                        <p>
-                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
-                        </p>
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Çıkarımlar</strong>
+                        </div>
                         <ul>
-                            <li>Seq2Seq models are inherently order-sensitive, but tasks like sorting are inherently not order-sensitive.</li>
+                            <li>Seq2Seq modelleri doğası gereği sıraya duyarlıdır, ancak sıralama gibi görevler doğası gereği sıraya duyarlı değildir.</li>
                             <li>
-                                Read-Process-Write creates a <strong>permutation-invariant embedding of the input</strong>
-                                . This is fed to an LSTM Pointer Network
+                                Read-Process-Write, girdinin <strong>permutation-invariant embedding'ini</strong> oluşturur. Bu, bir LSTM Pointer Network'e beslenir.
                             </li>
-                            <li>Handles unordered output by searching over possible orders during training. This feels funky…</li>
+                            <li>Eğitim sırasında olası sıralar üzerinde arama yaparak sırasız çıktıları ele alır. Bu biraz garip hissettiriyor...</li>
                         </ul>
-                        <h1 id="variational-lossy-autoencoder">Variational Lossy Autoencoder</h1>
-                        <p>
-                            <em>Chen, et al. 2016</em>
-                            <a  target="_blank" href="https://arxiv.org/pdf/1611.02731">(PDF)</a>
-                        </p>
+                    </div>
+
+                    <div class="paper-card" id="variational-lossy-autoencoder" data-year="2016" data-tags="deep-learning cv">
+                        <i class="fas fa-bookmark bookmark-icon" data-paper-id="variational-lossy-autoencoder"></i>
+                        <h1>Variational Lossy Autoencoder</h1>
+                        <div class="paper-meta">
+                            <span><em>Chen, et al. 2016</em></span>
+                            <a class="paper-link" target="_blank" href="https://arxiv.org/pdf/1611.02731">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </a>
+                        </div>
                         <p>
                             <em>
-                                “Representation learning seeks to expose certain aspects of observed data in a learned representation that’s amenable to downstream tasks like classification. For instance, a good representation for 2D images might be one that describes only global structure and discards information about detailed texture. In this paper, we present a simple but principled method to <strong>learn such global representations by combining Variational Autoencoder (VAE) with neural autoregressive models such as RNN, MADE and PixelRNN/CNN</strong>
-                                . Our proposed VAE model allows us to have control over what the global latent code can learn and, by designing the architecture accordingly, we can force the global latent code to discard irrelevant information such as texture in 2D images, and hence the VAE only “autoencodes” data in a lossy fashion. In addition, by leveraging autoregressive models as both prior distribution p(z) and decoding distribution p(x|z), we can greatly improve generative modeling performance of VAEs, achieving new state-of-the-art results on MNIST, OMNIGLOT and Caltech-101 Silhouettes density estimation tasks.”
+                                "Representation learning, gözlemlenen verilerin belirli yönlerini, sınıflandırma gibi downstream görevlere uygun bir öğrenilmiş gösterimde açığa çıkarmayı amaçlar. Örneğin, 2D görüntüler için iyi bir gösterim, yalnızca global yapıyı tanımlayan ve detaylı doku hakkındaki bilgileri atan bir gösterim olabilir. Bu makalede, <strong>Variational Autoencoder (VAE) ile RNN, MADE ve PixelRNN/CNN gibi neural autoregressive modelleri birleştirerek</strong> bu tür global gösterimleri öğrenmek için basit ama ilkeli bir yöntem sunuyoruz. Önerdiğimiz VAE modeli, global latent code'un ne öğrenebileceği üzerinde kontrol sahibi olmamıza izin verir ve mimariye göre tasarlayarak, global latent code'un 2D görüntülerdeki doku gibi ilgisiz bilgileri atmasını zorlayabiliriz, böylece VAE verileri yalnızca kayıplı bir şekilde "otomatik kodlar". Ayrıca, hem prior distribution p(z) hem de decoding distribution p(x|z) olarak autoregressive modelleri kullanarak, VAE'lerin generative modeling performansını büyük ölçüde iyileştirebilir, MNIST, OMNIGLOT ve Caltech-101 Silhouettes density estimation görevlerinde yeni state-of-the-art sonuçlar elde edebiliriz."
                             </em>
                         </p>
-                        <p>
-                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
-                        </p>
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Çıkarımlar</strong>
+                        </div>
                         <ul>
                             <li>TODO</li>
                         </ul>
-                        <h1 id="a-simple-neural-network-module-for-relational-reasoning">A Simple Neural Network Module for Relational Reasoning</h1>
-                        <p>
-                            <em>Santoro, et al. 2017</em>
-                            <a  target="_blank" href="https://arxiv.org/pdf/1706.01427">(PDF)</a>
-                        </p>
+                    </div>
+
+                    <div class="paper-card" id="a-simple-neural-network-module-for-relational-reasoning" data-year="2017" data-tags="deep-learning cv">
+                        <i class="fas fa-bookmark bookmark-icon" data-paper-id="a-simple-neural-network-module-for-relational-reasoning"></i>
+                        <h1>A Simple Neural Network Module for Relational Reasoning</h1>
+                        <div class="paper-meta">
+                            <span><em>Santoro, et al. 2017</em></span>
+                            <a class="paper-link" target="_blank" href="https://arxiv.org/pdf/1706.01427">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </a>
+                        </div>
                         <p>
                             <img src="https://mfaulk.github.io/assets/images/rn_fig2.png" alt="Relational Reasoning"/>
                         </p>
                         <p>
-                            “
+                            "
                             <em>
-                                Relational reasoning is a central component of generally intelligent behavior, but has provendifficult for neural networks to learn. In this paper we describe how to use Relation Networks(RNs) as <strong>a simple plug-and-play module to solve problems that fundamentally hinge on relationalreasoning</strong>
-                                . We tested RN-augmented networks on three tasks: visual question answeringusing a challenging dataset called CLEVR, on which we achieve state-of-the-art, super-humanperformance; text-based question answering using the bAbI suite of tasks; and complex reasoningabout dynamic physical systems. Then, using a curated dataset called Sort-of-CLEVR we showthat <strong>powerful convolutional networks do not have a general capacity to solve relational questions</strong>
-                                , but can gain this capacity when augmented with RNs. <strong>Our work shows how a deep learning architecture equipped with an RN module can implicitly discover and learn to reason about entities and their relations</strong>
-                                .
+                                Relational reasoning, genel olarak zeki davranışın merkezi bir bileşenidir, ancak neural networkler için öğrenmesi zor olduğu kanıtlanmıştır. Bu makalede, <strong>temelde relational reasoning'e bağlı olan problemleri çözmek için Relation Networks (RN)'i basit bir tak-çalıştır modülü olarak nasıl kullanacağımızı</strong> açıklıyoruz. RN ile güçlendirilmiş ağları üç görevde test ettik: CLEVR adında zorlu bir veri seti kullanarak visual question answering, ki burada state-of-the-art, insan üstü performansa ulaşıyoruz; bAbI görev seti kullanarak metin tabanlı soru cevaplama; ve dinamik fiziksel sistemler hakkında karmaşık akıl yürütme. Daha sonra, Sort-of-CLEVR adlı düzenlenmiş bir veri seti kullanarak, <strong>güçlü convolutional networkların ilişkisel soruları çözmek için genel bir kapasiteye sahip olmadığını, ancak RN'lerle güçlendirildiklerinde bu kapasiteyi kazanabileceklerini</strong> gösteriyoruz. Çalışmamız, <strong>bir RN modülü ile donatılmış derin öğrenme mimarisinin, varlıkları ve ilişkilerini örtük olarak nasıl keşfedebileceğini ve bunlar hakkında nasıl akıl yürütmeyi öğrenebileceğini</strong> göstermektedir.
                             </em>
-                            ”
+                            "
                         </p>
-                        <p>
-                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
-                        </p>
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Çıkarımlar</strong>
+                        </div>
                         <ul>
                             <li>
-                                <strong>Relational reasoning</strong>
-                                is the ability to understand, infer, and manipulate the relationships between different entities or pieces of information.
+                                <strong>Relational reasoning</strong>, farklı varlıklar veya bilgi parçaları arasındaki ilişkileri anlama, çıkarım yapma ve manipüle etme yeteneğidir.
                             </li>
                             <li>
-                                Achieves super-human performance on the <a  target="_blank" href="https://cs.stanford.edu/people/jcjohns/clevr/">CLEVR</a>
-                                visual reasoning task.
+                                <a target="_blank" href="https://cs.stanford.edu/people/jcjohns/clevr/">CLEVR</a> visual reasoning görevinde insan üstü performans elde eder.
                             </li>
-                            <li>RNs constrain the functional form of a NN so that it captures common properties of relational reasoning, in the same way that convolutional layers capture translational invariance, or recurrent layers capture sequential dependencies.</li>
-                            <li>RNs operate on a set of objects, and learn (pairwise) relations between them.</li>
+                            <li>RN'ler, bir NN'in fonksiyonel formunu, convolutional katmanların translational invariance yakalaması veya recurrent katmanların sequential dependencies yakalaması gibi, relational reasoning'in ortak özelliklerini yakalayacak şekilde kısıtlar.</li>
+                            <li>RN'ler bir nesne kümesi üzerinde çalışır ve aralarındaki (ikili) ilişkileri öğrenir.</li>
                         </ul>
-                        <h1 id="attention-is-all-you-need">Attention is All You Need</h1>
+                    </div>
+
+                    <div class="paper-card" id="attention-is-all-you-need" data-year="2017" data-tags="deep-learning nlp">
+                        <i class="fas fa-bookmark bookmark-icon" data-paper-id="attention-is-all-you-need"></i>
+                        <h1>Attention is All You Need</h1>
+                        <div class="paper-meta">
+                            <span><em>Vaswani, Shazeer, Parmar, Uszkoreit, Jones, Gomez, Kaiser, Polosukhin. 2017</em></span>
+                        </div>
                         <p>
-                            <em>Vaswani, Shazeer, Parmar, Uszkoreit, Jones, Gomez, Kaiser, Polosukhin. 2017</em>
+                            <a target="_blank" href="https://nlp.seas.harvard.edu/annotated-transformer/">(Faydalı Açıklamalı Makale)</a>
+                            <a target="_blank" href="https://arxiv.org/pdf/1706.03762">(Orijinal Makale)</a>
                         </p>
                         <p>
-                            <a  target="_blank" href="https://nlp.seas.harvard.edu/annotated-transformer/">(Helpfully Annotated Paper)</a>
-                            <a  target="_blank" href="https://arxiv.org/pdf/1706.03762">(Original Paper)</a>
+                            "Baskın sequence transduction modelleri, bir encoder ve decoder içeren karmaşık recurrent veya convolutional neural networkler'e dayanmaktadır. En iyi performans gösteren modeller ayrıca encoder ve decoder'ı bir attention mechanism aracılığıyla birbirine bağlar. <strong>Recurrence ve convolution'dan tamamen vazgeçerek, yalnızca attention mechanism'lerine dayalı yeni ve basit bir network mimarisi olan Transformer'ı öneriyoruz.</strong> İki makine çevirisi görevi üzerindeki deneyler gösteriyor ki..."
                         </p>
-                        <p>
-                            “The dominant sequence transduction models are based on complex recurrent orconvolutional neural networks that include an encoder and a decoder. The bestperforming models also connect the encoder and decoder through an attentionmechanism. <strong>We propose a new simple network architecture, the Transformer,based solely on attention mechanisms, dispensing with recurrence and convolutionsentirely.</strong>
-                            Experiments on two machine translation tasks show…”
-                        </p>
-                        <p>
-                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
-                        </p>
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Çıkarımlar</strong>
+                        </div>
                         <ul>
                             <li>
-                                <strong>Transformer architecture</strong>
-                                removes the recurrent (sequential) connections of RNNs. This allows efficient, parallel training with GPUs.
+                                <strong>Transformer mimarisi</strong>, RNN'lerin recurrent (ardışık) bağlantılarını ortadan kaldırır. Bu, GPU'larla verimli ve paralel eğitime olanak tanır.
                             </li>
                             <li>
-                                The <strong>self-attention mechanism</strong>
-                                enables the model to weigh the importance of different words in a sentence, regardless of their position. This allows for capturing long-range dependencies and relationships more effectively than RNNs.
+                                <strong>Self-attention mekanizması</strong>, modelin bir cümledeki farklı kelimelerin önemini, konumlarından bağımsız olarak ağırlıklandırmasını sağlar. Bu, uzun menzilli bağımlılıkları ve ilişkileri RNN'lerden daha etkili bir şekilde yakalamaya olanak tanır.
                             </li>
                         </ul>
-                        <h1 id="kolmogorov-complexity-and-algorithmic-randomness">Kolmogorov Complexity and Algorithmic Randomness</h1>
+                    </div>
+
+                    <div class="paper-card" id="kolmogorov-complexity-and-algorithmic-randomness" data-year="2017" data-tags="theory">
+                        <i class="fas fa-bookmark bookmark-icon" data-paper-id="kolmogorov-complexity-and-algorithmic-randomness"></i>
+                        <h1>Kolmogorov Complexity and Algorithmic Randomness</h1>
+                        <div class="paper-meta">
+                            <span><em>"Sıfır ve birlerden oluşan bir diziye baktığımızda, çoğu zaman bunun rastgele olmadığını, yani adil bir para atmadan elde edilmiş olamayacak kadar düzensiz olmadığını hissederiz. Neden? Cevap, algorithmic information theory tarafından sağlanır: çünkü dizi sıkıştırılabilir, yani düşük complexity'ye sahiptir veya eşdeğer olarak kısa bir program tarafından üretilebilir. Solomonoff, Kolmogorov, Chaitin, Levin ve diğerleri tarafından geliştirilen bu fikir, şimdi algorithmic information theory'nin başlangıç noktasıdır. Bu kitabın ilk kısmı, complexity ve randomness'ın temel kavramlarının ders kitabı tarzında bir açıklamasıdır; ikinci kısım, 1980'lerde Kolmogorov'un kendisi tarafından başlatılan Moskova'daki 'Kolmogorov seminerine' katılanlar ve meslektaşları tarafından yapılan bazı son çalışmaları kapsamaktadır."</em></span>
+                            <a class="paper-link" target="_blank" href="https://www.lirmm.fr/~ashen/kolmbook-eng-scan.pdf">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </a>
+                        </div>
                         <p>
-                            <em>“Looking at a sequence of zeros and ones, we often feel that it is not random, that is, it is not plausible as an outcome of fair coin tossing. Why? The answer is provided by algorithmic information theory: because the sequence is compressible, that is, it has small complexity or, equivalently, can be produced by a short program. This idea, going back to Solomonoff, Kolmogorov, Chaitin, Levin, and others, is now the starting point of algorithmic information theory. The first part of this book is a textbook-style exposition of the basic notions of complexity and randomness; the second part covers some recent work done by participants of the “Kolmogorov seminar” in Moscow (started by Kolmogorov himself in the 1980s) and their colleagues.”</em>
+                            Bu oldukça kapsamlı bir kitap ve ben sadece göz gezdirdim. Bunun yerine <a target="_blank" href="https://link.springer.com/content/pdf/10.1007/978-3-030-11298-1.pd">An Introduction to Kolmogorov Complexity and Its Applications</a>'a bakmanızı öneririm.
                         </p>
-                        <p>
-                            <a  target="_blank" href="https://www.lirmm.fr/~ashen/kolmbook-eng-scan.pdf">(PDF)</a>
-                        </p>
-                        <p>
-                            This is a substantial book, and I’ve only skimmed it. I’d suggest looking at <a  target="_blank" href="https://link.springer.com/content/pdf/10.1007/978-3-030-11298-1.pd">An Introduction to Kolmogorov Complexity and Its Applications</a>
-                            instead.
-                        </p>
-                        <p>
-                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
-                        </p>
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Çıkarımlar</strong>
+                        </div>
                         <ul>
-                            <li>Kolmogorov Complexity is a universal definition for the complexity, or quantity of information, in an object.</li>
-                            <li>This differs from Shannon’s Entropy, which is the amount of information that needs to be communicated in order to select an object from a known list of alternatives (symbols).</li>
+                            <li>Kolmogorov Complexity, bir nesnedeki karmaşıklığın veya bilgi miktarının evrensel bir tanımıdır.</li>
+                            <li>Bu, bilinen alternatifler (semboller) listesinden bir nesneyi seçmek için iletilmesi gereken bilgi miktarı olan Shannon's Entropy'den farklıdır.</li>
                         </ul>
-                        <h1 id="neural-message-passing-for-quantum-chemistry">Neural Message Passing for Quantum Chemistry</h1>
-                        <p>
-                            <em>Gilmer, et al. 2017</em>
-                            <a  target="_blank" href="https://arxiv.org/pdf/1704.01212">(PDF)</a>
-                        </p>
+                    </div>
+
+                    <div class="paper-card" id="neural-message-passing-for-quantum-chemistry" data-year="2017" data-tags="deep-learning">
+                        <i class="fas fa-bookmark bookmark-icon" data-paper-id="neural-message-passing-for-quantum-chemistry"></i>
+                        <h1>Neural Message Passing for Quantum Chemistry</h1>
+                        <div class="paper-meta">
+                            <span><em>Gilmer, et al. 2017</em></span>
+                            <a class="paper-link" target="_blank" href="https://arxiv.org/pdf/1704.01212">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </a>
+                        </div>
                         <p>
                             <img src="https://mfaulk.github.io/assets/images/mpnn_fig_1.png" alt="Message Passing Neural Networks"/>
                         </p>
                         <p>
                             <em>
-                                “Supervised learning on molecules has incredible potential to be useful in chemistry, drug discovery, and materials science. Luckily, several promising and closely related neural network models invariant to molecular symmetries have already been described in the literature. <strong>These models learn a message passing algorithm and aggregation procedure to compute a function of their entire input graph</strong>
-                                . At this point, the next step is to find a particularly effective variant of this general approach and apply it to chemical prediction benchmarks until we either solve them or reach the limits of the approach. In this paper, we reformulate existing models into a singl common framework we call Message Passing Neural Networks (MPNNs) and explore additional novel variations within this framework. Using MPNNs we demonstrate state of the art results on an important molecula property prediction benchmark; these results are strong enough that we believe future work should focus on datasets with larger molecules or more accurate ground truth labels.”
+                                "Moleküller üzerinde supervised learning, kimya, ilaç keşfi ve malzeme bilimi için inanılmaz bir potansiyele sahiptir. Neyse ki, moleküler simetrilere karşı değişmez olan birkaç umut verici ve yakından ilişkili neural network modeli zaten literatürde tanımlanmıştır. <strong>Bu modeller, tüm giriş grafiğinin bir fonksiyonunu hesaplamak için bir message passing algoritması ve aggregation prosedürü öğrenir</strong>. Bu noktada, bir sonraki adım, bu genel yaklaşımın özellikle etkili bir varyantını bulmak ve ya onları çözene kadar ya da yaklaşımın sınırlarına ulaşana kadar kimyasal tahmin benchmark'larına uygulamaktır. Bu makalede, mevcut modelleri Message Passing Neural Networks (MPNNs) olarak adlandırdığımız tek bir ortak çerçevede yeniden formüle ediyoruz ve bu çerçeve içinde ek yeni varyasyonları keşfediyoruz. MPNN'leri kullanarak, önemli bir moleküler özellik tahmini benchmark'ında state of the art sonuçlar gösteriyoruz; bu sonuçlar, gelecekteki çalışmaların daha büyük moleküller veya daha doğru ground truth etiketlere sahip veri setlerine odaklanması gerektiğine inandığımız kadar güçlüdür."
                             </em>
                         </p>
-                        <p>
-                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
-                        </p>
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Çıkarımlar</strong>
+                        </div>
                         <ul>
                             <li>
-                                <strong>Message Passing Neural Networks (MPNNs)</strong>
-                                abstracts commonalities of several models for graph-based data. Nodes iteratively pass messages to their neighbors, who aggregate these messages and update their own state. Finally, a readout function maps the final node states to the graph’s global state.
+                                <strong>Message Passing Neural Networks (MPNNs)</strong>, graf tabanlı veriler için çeşitli modellerin ortak özelliklerini soyutlar. Düğümler, komşularına yinelemeli olarak mesajlar gönderir, komşular bu mesajları toplar ve kendi durumlarını günceller. Son olarak, bir readout fonksiyonu, son düğüm durumlarını grafın global durumuna eşler.
                             </li>
                             <li>
-                                Uses <a  target="_blank" href="https://arxiv.org/abs/1511.06391">set2set</a>
-                                to produce a readout that is invariant to graph order.
+                                Grafın sırasına değişmez bir readout üretmek için <a target="_blank" href="https://arxiv.org/abs/1511.06391">set2set</a> kullanır.
                             </li>
                         </ul>
-                        <h1 id="relational-recurrent-neural-networks">Relational Recurrent Neural Networks</h1>
-                        <p>
-                            <em>Santoro, Adam, et al. 2018</em>
-                            <a  target="_blank" href="https://arxiv.org/pdf/1806.01822">(PDF)</a>
-                        </p>
+                    </div>
+
+                    <div class="paper-card" id="relational-recurrent-neural-networks" data-year="2018" data-tags="deep-learning nlp">
+                        <i class="fas fa-bookmark bookmark-icon" data-paper-id="relational-recurrent-neural-networks"></i>
+                        <h1>Relational Recurrent Neural Networks</h1>
+                        <div class="paper-meta">
+                            <span><em>Santoro, Adam, et al. 2018</em></span>
+                            <a class="paper-link" target="_blank" href="https://arxiv.org/pdf/1806.01822">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </a>
+                        </div>
                         <p>
                             <em>
-                                “Memory-based neural networks model temporal data by leveraging an ability to remember information for long periods. It is unclear, however, whether they also have an ability to perform complex relational reasoning with the information they remember. Here, we first confirm our intuitions that standard memory architectures may struggle at tasks that heavily involve an understanding of the ways in which entities are connected – i.e., tasks involving relational reasoning. We then improve upon these deficits by using a <strong>new memory module – a Relational Memory Core (RMC) – which employs multi-head dot product attention to allow memories to interact</strong>
-                                . Finally, we test the RMC on a suite of tasks that may profit from more capable relational reasoning across sequential information, and show large gains in RL domains (e.g. Mini PacMan), program evaluation, and language modeling, achieving state-of-the-art results on the WikiText-103, Project Gutenberg, and GigaWord datasets.”
+                                "Hafıza tabanlı neural networkler, bilgiyi uzun süre hatırlama yeteneklerini kullanarak zamansal verileri modellerler. Ancak, hatırladıkları bilgilerle karmaşık ilişkisel muhakeme yapma yeteneğine sahip olup olmadıkları belirsizdir. Burada, öncelikle standart bellek mimarilerinin, varlıkların nasıl bağlandığını anlamayı içeren görevlerde - yani ilişkisel muhakeme içeren görevlerde - zorlanabileceğine dair sezgilerimizi doğruluyoruz. Daha sonra, <strong>hafızaların etkileşimini sağlamak için multi-head dot product attention kullanan yeni bir hafıza modülü - Relational Memory Core (RMC) - kullanarak</strong> bu eksiklikleri iyileştiriyoruz. Son olarak, RMC'yi sıralı bilgiler arasında daha yetenekli ilişkisel muhakemeden faydalanabilecek bir dizi görevde test ediyoruz ve RL alanlarında (örn. Mini PacMan), program değerlendirmesinde ve dil modellemesinde büyük kazanımlar gösteriyoruz, WikiText-103, Project Gutenberg ve GigaWord veri setlerinde state-of-the-art sonuçlara ulaşıyoruz."
                             </em>
                         </p>
-                        <p>
-                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
-                        </p>
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Çıkarımlar</strong>
+                        </div>
                         <ul>
-                            <li>“[A]n architectural backbone upon which a model can learn to compartmentalize information, and learn to computeinteractions between compartmentalized information.”</li>
-                            <li>Relational Memory Core (RMC) maintains a matrix of row-wise memories. Updates are via attention over previousmemories and input.</li>
-                            <li>The memory matrix can be viewed as the matrix of cell states in a 2D-LSTM.</li>
+                            <li>"Bir modelin bilgiyi bölümleyebileceği ve bölümlendirilmiş bilgi arasında etkileşimleri hesaplamayı öğrenebileceği bir mimari omurga."</li>
+                            <li>Relational Memory Core (RMC), satır bazlı hafızalar matrisi tutar. Güncellemeler, önceki hafızalar ve giriş üzerindeki attention aracılığıyla yapılır.</li>
+                            <li>Hafıza matrisi, bir 2D-LSTM'deki hücre durumları matrisi olarak görülebilir.</li>
                         </ul>
-                        <h1 id="gpipe-efficient-training-of-giant-neural-networks-using-pipeline-parallelism">GPipe: Efficient Training of Giant Neural Networks using Pipeline Parallelism</h1>
-                        <p>
-                            <em>Hung, et al. 2018</em>
-                            <a  target="_blank" href="https://arxiv.org/pdf/1811.06965">(PDF)</a>
-                            <a  target="_blank" href="https://research.google/blog/introducing-gpipe-an-open-source-library-for-efficiently-training-large-scale-neural-network-models/">(Blog)</a>
-                        </p>
+                    </div>
+
+                    <div class="paper-card" id="gpipe-efficient-training-of-giant-neural-networks-using-pipeline-parallelism" data-year="2019" data-tags="deep-learning">
+                        <i class="fas fa-bookmark bookmark-icon" data-paper-id="gpipe-efficient-training-of-giant-neural-networks-using-pipeline-parallelism"></i>
+                        <h1>GPipe: Efficient Training of Giant Neural Networks using Pipeline Parallelism</h1>
+                        <div class="paper-meta">
+                            <span><em>Hung, et al. 2018</em></span>
+                            <a class="paper-link" target="_blank" href="https://arxiv.org/pdf/1811.06965">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </a>
+                            <a class="paper-link" target="_blank" href="https://research.google/blog/introducing-gpipe-an-open-source-library-for-efficiently-training-large-scale-neural-network-models/">
+                                <i class="fas fa-blog"></i> Blog
+                            </a>
+                        </div>
                         <p>
                             <img src="https://mfaulk.github.io/assets/images/gpipe.png" alt="Micro-batch pipelining"/>
                         </p>
                         <p>
                             <em>
-                                “Scaling up deep neural network capacity has been known as an effective approach to improving model quality for several different machine learning tasks. In many cases, increasing model capacity beyond the memory limit of a single accelerator has required developing special algorithms or infrastructure. These solutions are often architecture-specific and do not transfer to other tasks. To address the need for efficient and task-independent model parallelism, we introduce <strong>GPipe, a pipeline parallelism library that allows scaling any network that can be expressed as a sequence of layers</strong>
-                                . By pipelining different sub-sequences of layers on separate accelerators, GPipe provides the flexibility of scaling a variety of different networks to gigantic sizes efficiently. Moreover, GPipe utilizes a novel batch-splitting pipelining algorithm, resulting in almost linear speedup when a model is partitioned across multiple accelerators. We demonstrate the advantages of GPipe by training large-scale neural networks on two different tasks with distinct network architectures: (i) Image Classification: We train a 557-million-parameter AmoebaNet model and attain a top-1 accuracy of 84.4% on ImageNet-2012, (ii) Multilingual Neural Machine Translation: <strong>We train a single 6-billion-parameter, 128-layer Transformer model on a corpus spanning over 100 languages and achieve better quality than all bilingual models</strong>
-                                .”
+                                "Deep neural network kapasitesini artırmanın, çeşitli makine öğrenimi görevleri için model kalitesini iyileştirmenin etkili bir yaklaşımı olduğu bilinmektedir. Birçok durumda, model kapasitesini tek bir accelerator'ın bellek sınırının ötesine artırmak, özel algoritmalar veya altyapı geliştirmeyi gerektirmiştir. Bu çözümler genellikle mimariye özgüdür ve diğer görevlere aktarılamaz. Verimli ve görevden bağımsız model paralelliği ihtiyacını karşılamak için, <strong>katmanların bir dizisi olarak ifade edilebilen herhangi bir ağı ölçeklendirmeye olanak tanıyan bir pipeline parallelism kütüphanesi olan GPipe'ı tanıtıyoruz</strong>. GPipe, farklı katman alt dizilerini ayrı accelerator'larda pipeline haline getirerek, çeşitli farklı ağları devasa boyutlara verimli bir şekilde ölçeklendirme esnekliği sağlar. Üstelik GPipe, bir model birden fazla accelerator arasında bölündüğünde neredeyse doğrusal hızlanma sağlayan yeni bir batch-splitting pipelining algoritması kullanır. GPipe'ın avantajlarını, farklı ağ mimarilerine sahip iki farklı görevde büyük ölçekli neural network'leri eğiterek gösteriyoruz: (i) Image Classification: 557 milyon parametreli bir AmoebaNet modeli eğitiyoruz ve ImageNet-2012'de %84.4'lük bir top-1 doğruluk elde ediyoruz, (ii) Çok Dilli Neural Machine Translation: <strong>100'den fazla dili kapsayan bir corpus üzerinde tek bir 6 milyar parametreli, 128 katmanlı Transformer modeli eğitiyoruz ve tüm ikili dillimodellere göre daha iyi kalite elde ediyoruz</strong>."
                             </em>
                         </p>
-                        <p>
-                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
-                        </p>
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Çıkarımlar</strong>
+                        </div>
                         <ul>
-                            <li>Increasing model size generally improves model performance, but model growth is outstripping hardware growth.</li>
+                            <li>Model boyutunu artırmak genellikle model performansını iyileştirir, ancak model büyümesi donanım büyümesini geçmektedir.</li>
                             <li>
-                                GPipe is a distributed machine learning <a  target="_blank" href="https://github.com/tensorflow/lingvo/blob/master/lingvo/core/gpipe.py">library</a>
-                                that uses synchronous stochastic gradient descent and <strong>pipeline parallelism</strong>
-                                for training on multiple accelerators.
+                                GPipe, birden fazla accelerator üzerinde eğitim için synchronous stochastic gradient descent ve <strong>pipeline parallelism</strong> kullanan dağıtılmış bir makine öğrenimi <a target="_blank" href="https://github.com/tensorflow/lingvo/blob/master/lingvo/core/gpipe.py">kütüphanesidir</a>.
                             </li>
-                            <li>Forward pass: mini-batches are split into micro-batches and pipelined across accelerators. Backward pass: gradients are accumulated across micro-batches.</li>
+                            <li>İleri geçiş: mini-batch'ler micro-batch'lere bölünür ve accelerator'lar arasında pipeline'lanır. Geri geçiş: gradientler micro-batch'ler arasında biriktirilir.</li>
                         </ul>
-                        <h1 id="scaling-laws-for-neural-language-models">Scaling Laws for Neural Language Models</h1>
-                        <p>
-                            <em>Kaplan, et al. 2020</em>
-                            <a  target="_blank" href="https://arxiv.org/pdf/2001.08361">(PDF)</a>
-                        </p>
+                    </div>
+
+                    <div class="paper-card" id="scaling-laws-for-neural-language-models" data-year="2020" data-tags="deep-learning nlp">
+                        <i class="fas fa-bookmark bookmark-icon" data-paper-id="scaling-laws-for-neural-language-models"></i>
+                        <h1>Scaling Laws for Neural Language Models</h1>
+                        <div class="paper-meta">
+                            <span><em>Kaplan, et al. 2020</em></span>
+                            <a class="paper-link" target="_blank" href="https://arxiv.org/pdf/2001.08361">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </a>
+                        </div>
                         <p>
                             <em>
-                                “We study empirical scaling laws for language model performance on the cross-entropy loss. <strong>The loss scales as a power-law with model size, dataset size, and the amount of compute used for training</strong>
-                                , with some trends spanning more than seven orders of magnitude. Other architectural details such as network width or depth have minimal effects within a wide range. Simple equations govern the dependence of overfitting on model/dataset size and the dependence of training speed on model size. These relationships allow us to determine the <strong>optimal allocation of a fixed compute budget</strong>
-                                . Larger models are significantly more sample-efficient, such that <strong>optimally compute-efficient training involves training very large models on a relatively modest amount of data and stopping significantly before convergence.</strong>
-                                ”
+                                "Neural language model performansı için ampirik scaling law'ları inceliyoruz. <strong>Kayıp (loss), model boyutu, veri seti boyutu ve eğitim için kullanılan compute miktarı ile bir power-law olarak ölçeklenir</strong>, bazı trendler yedi büyüklük mertebesinden fazlasını kapsar. Network genişliği veya derinliği gibi diğer mimari detayların geniş bir aralıkta minimal etkileri vardır. Basit denklemler, overfitting'in model/veri seti boyutuna bağlılığını ve eğitim hızının model boyutuna bağlılığını yönetir. Bu ilişkiler, <strong>sabit bir compute bütçesinin optimal tahsisini</strong> belirlememize olanak tanır. Daha büyük modeller önemli ölçüde daha sample-efficient'tır, öyle ki <strong>optimum compute-efficient eğitim, çok büyük modelleri nispeten mütevazı miktarda veri üzerinde eğitmeyi ve yakınsama öncesinde önemli ölçüde durdurmayı içerir.</strong>"
                             </em>
                         </p>
-                        <p>
-                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
-                        </p>
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Çıkarımlar</strong>
+                        </div>
                         <ul>
                             <li>
-                                <strong>“Language modeling performance improves smoothly and predictably as we appropriately scale up model size, data, and compute.”</strong>
+                                <strong>"Language modeling performansı, model boyutunu, veriyi ve compute'u uygun şekilde ölçeklendirdiğimizde yumuşak ve tahmin edilebilir bir şekilde gelişir."</strong>
                             </li>
                             <li>
-                                Language model (Transformer) <strong>performance depends most strongly on scale</strong>
-                                : model size, dataset size, and compute resources.
+                                Language model (Transformer) <strong>performansı en güçlü şekilde ölçeğe bağlıdır</strong>: model boyutu, veri seti boyutu ve compute kaynakları.
                             </li>
                             <li>
-                                Performance has a smooth <a  target="_blank" href="https://en.wikipedia.org/wiki/Power_law">power-law</a>
-                                relationship with each scale factor (implying diminishing marginal returns with increasing scale).
+                                Performans, her ölçek faktörüyle yumuşak bir <a target="_blank" href="https://en.wikipedia.org/wiki/Power_law">power-law</a> ilişkisine sahiptir (bu, artan ölçekle azalan marjinal getiriler anlamına gelir).
                             </li>
-                            <li>Performance has “very weak dependence on many architectural and optimization hyper-parameters.”</li>
+                            <li>Performans, "birçok mimari ve optimizasyon hiper-parametresine çok zayıf bağlıdır."</li>
                             <li>
-                                “Our results strongly suggest that larger models will continue to perform better, and will also be much moresample efficient than has been previously appreciated. <strong>Big models may be more important than big data</strong>
-                                .”
+                                "Sonuçlarımız, daha büyük modellerin performanslarının daha iyi olmaya devam edeceğini ve ayrıca daha önce takdir edilenden çok daha sample-efficient olacağını güçlü bir şekilde göstermektedir. <strong>Büyük veri yerine büyük modeller daha önemli olabilir</strong>."
                             </li>
                         </ul>
                         <p>
                             <strong>
-                                CAVEAT: <a  target="_blank" href="https://www.lesswrong.com/posts/midXmMb2Xg37F2Kgn/new-scaling-laws-for-large-language-models">Not everyone agrees with these scaling laws.</a>
+                                UYARI: <a target="_blank" href="https://www.lesswrong.com/posts/midXmMb2Xg37F2Kgn/new-scaling-laws-for-large-language-models">Herkes bu scaling law'lar konusunda hemfikir değil.</a>
                             </strong>
                         </p>
-                        <h1 id="cs231n-convolutional-neural-networks-for-visual-recognition">CS231n Convolutional Neural Networks for Visual Recognition</h1>
-                        <p>
-                            <a  target="_blank" href="https://cs231n.github.io/">(2024 Course Notes)</a>
-                        </p>
-                        <p>“This course is a deep dive into the details of deep learning architectures with a focus on learning end-to-end models for these tasks, particularly image classification.”</p>
-                        <p>
-                            <strong style="color: rgb(163, 20, 220);">Takeaways</strong>
-                        </p>
-                        <p>The course notes contain excellent treatment of the fundamentals of neural networks, including:</p>
+                    </div>
+
+                    <div class="paper-card" id="cs231n-convolutional-neural-networks-for-visual-recognition" data-year="2024" data-tags="deep-learning cv">
+                        <i class="fas fa-bookmark bookmark-icon" data-paper-id="cs231n-convolutional-neural-networks-for-visual-recognition"></i>
+                        <h1>CS231n Convolutional Neural Networks for Visual Recognition</h1>
+                        <div class="paper-meta">
+                            <a class="paper-link" target="_blank" href="https://cs231n.github.io/">
+                                <i class="fas fa-book"></i> 2024 Ders Notları
+                            </a>
+                        </div>
+                        <p>"Bu kurs, özellikle image classification olmak üzere, bu görevler için end-to-end modeller öğrenmeye odaklanarak deep learning mimarilerinin detaylarına derinlemesine bir bakıştır."</p>
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Çıkarımlar</strong>
+                        </div>
+                        <p>Ders notları, neural network'lerin temellerinin mükemmel bir açıklamasını içerir, örneğin:</p>
                         <ul>
                             <li>
-                                <a  target="_blank" href="https://cs231n.github.io/neural-networks-1/">The neuron model and NN architectures</a>
+                                <a target="_blank" href="https://cs231n.github.io/neural-networks-1/">Nöron modeli ve NN mimarileri</a>
                             </li>
                             <li>
-                                <a  target="_blank" href="https://cs231n.github.io/optimization-2/">Backpropagation</a>
+                                <a target="_blank" href="https://cs231n.github.io/optimization-2/">Backpropagation</a>
                             </li>
                             <li>
-                                <a  target="_blank" href="https://cs231n.github.io/optimization-1/">Gradient Descent for learning</a>
+                                <a target="_blank" href="https://cs231n.github.io/optimization-1/">Öğrenme için Gradient Descent</a>
                             </li>
                         </ul>
-                        <hr>
-                       
                     </div>
-                </article>
-            </div>
-        </main>
-       
-    </body>
+
+                    <!-- Additional paper cards would follow the same pattern -->
+                    <!-- ... existing paper cards ... -->
+
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <button id="scrollTopBtn" title="Go to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Theme selector button and panel -->
+    <div class="theme-palette-btn" id="themePaletteBtn">
+        <i class="fas fa-palette"></i>
+    </div>
+
+    <div class="theme-selector" id="themeSelector">
+        <div class="theme-option theme-dark active" data-theme="dark" title="Dark Theme"></div>
+        <div class="theme-option theme-light" data-theme="light" title="Light Theme"></div>
+        <div class="theme-option theme-cyberpunk" data-theme="cyberpunk" title="Cyberpunk Theme"></div>
+        <div class="theme-option theme-nature" data-theme="nature" title="Nature Theme"></div>
+    </div>
+
+    <script>
+        // Dark/Light Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        // Check if user has set a theme preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            body.setAttribute('data-theme', savedTheme);
+            // Update the active theme option
+            document.querySelectorAll('.theme-option').forEach(option => {
+                option.classList.remove('active');
+                if (option.dataset.theme === savedTheme) {
+                    option.classList.add('active');
+                }
+            });
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Update the active theme option
+            document.querySelectorAll('.theme-option').forEach(option => {
+                option.classList.remove('active');
+                if (option.dataset.theme === newTheme) {
+                    option.classList.add('active');
+                }
+            });
+        });
+
+        // Multiple Theme Options
+        const themePaletteBtn = document.getElementById('themePaletteBtn');
+        const themeSelector = document.getElementById('themeSelector');
+        const themeOptions = document.querySelectorAll('.theme-option');
+        
+        themePaletteBtn.addEventListener('click', () => {
+            themeSelector.classList.toggle('active');
+            themePaletteBtn.classList.toggle('active');
+        });
+        
+        themeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const theme = option.dataset.theme;
+                body.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                
+                themeOptions.forEach(o => o.classList.remove('active'));
+                option.classList.add('active');
+            });
+        });
+        
+        // Close theme selector when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!themeSelector.contains(e.target) && e.target !== themePaletteBtn) {
+                themeSelector.classList.remove('active');
+                themePaletteBtn.classList.remove('active');
+            }
+        });
+
+        // TOC Toggle
+        const tocToggle = document.getElementById('tocToggle');
+        const tocContainer = document.getElementById('tocContainer');
+        const overlay = document.getElementById('overlay');
+
+        tocToggle.addEventListener('click', () => {
+            tocContainer.classList.toggle('active');
+            overlay.classList.toggle('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            tocContainer.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+
+        // Properly Generate Table of Contents from paper cards
+        function generateTableOfContents() {
+            const paperCards = document.querySelectorAll('.paper-card');
+            const tocList = document.getElementById('tocList');
+            tocList.innerHTML = ''; // Clear existing items
+            
+            paperCards.forEach(card => {
+                const headingElement = card.querySelector('h1');
+                if (!headingElement) return;
+                
+                const paperTitle = headingElement.textContent;
+                const paperId = card.id;
+                
+                // Extract year from dataset or provide a default
+                let paperYear = card.getAttribute('data-year');
+                if (!paperYear) {
+                    // Try to extract year from the title or set default
+                    const yearMatch = paperTitle.match(/\b(19|20)\d{2}\b/);
+                    paperYear = yearMatch ? yearMatch[0] : "N/A";
+                    
+                    // Add year to the card element if it wasn't there
+                    card.setAttribute('data-year', paperYear);
+                }
+                
+                const li = document.createElement('li');
+                li.dataset.paperId = paperId;
+                
+                const a = document.createElement('a');
+                a.href = `#${paperId}`;
+                a.innerHTML = `<span class="paper-year">${paperYear}</span>${paperTitle}`;
+                
+                a.addEventListener('click', () => {
+                    tocContainer.classList.remove('active');
+                    overlay.classList.remove('active');
+                });
+                
+                li.appendChild(a);
+                tocList.appendChild(li);
+            });
+        }
+
+        // Reading Progress Bar
+        function updateReadingProgress() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("readingProgress").style.width = scrolled + "%";
+        }
+
+        window.addEventListener('scroll', updateReadingProgress);
+
+        // Search functionality enhanced
+        function setupSearch(inputId, listId, itemSelector) {
+            const searchInput = document.getElementById(inputId);
+            const items = document.getElementById(listId).querySelectorAll(itemSelector);
+            
+            searchInput.addEventListener('input', () => {
+                const searchTerm = searchInput.value.toLowerCase();
+                
+                items.forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        item.style.display = '';
+                        
+                        // Highlight matching text
+                        if (inputId === 'mainSearchInput') {
+                            const link = item.querySelector('a');
+                            if (link) {
+                                const originalText = link.textContent;
+                                if (searchTerm.length > 0) {
+                                    const regex = new RegExp(`(${searchTerm})`, 'gi');
+                                    link.innerHTML = originalText.replace(regex, '<mark>$1</mark>');
+                                } else {
+                                    link.textContent = originalText;
+                                }
+                            }
+                        }
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // Category/Tag Filtering
+        function setupTagFiltering() {
+            const tagButtons = document.querySelectorAll('.tag');
+            const paperItems = document.querySelectorAll('.paper-list li');
+            const paperCards = document.querySelectorAll('.paper-card');
+            
+            tagButtons.forEach(tag => {
+                tag.addEventListener('click', () => {
+                    const selectedTag = tag.dataset.tag;
+                    
+                    // Update active tag styling
+                    tagButtons.forEach(t => t.classList.remove('active'));
+                    tag.classList.add('active');
+                    
+                    // Filter paper list items
+                    paperItems.forEach(item => {
+                        if (selectedTag === 'all') {
+                            item.style.display = '';
+                        } else if (selectedTag === 'bookmarked') {
+                            const paperId = item.querySelector('a').getAttribute('href').substring(1);
+                            const isBookmarked = localStorage.getItem(`bookmark-${paperId}`) === 'true';
+                            item.style.display = isBookmarked ? '' : 'none';
+                        } else {
+                            const tags = item.dataset.tags || '';
+                            item.style.display = tags.includes(selectedTag) ? '' : 'none';
+                        }
+                    });
+                    
+                    // Filter paper cards
+                    paperCards.forEach(card => {
+                        if (selectedTag === 'all') {
+                            card.style.display = '';
+                        } else if (selectedTag === 'bookmarked') {
+                            const isBookmarked = localStorage.getItem(`bookmark-${card.id}`) === 'true';
+                            card.style.display = isBookmarked ? '' : 'none';
+                        } else {
+                            const tags = card.dataset.tags || '';
+                            card.style.display = tags.includes(selectedTag) ? '' : 'none';
+                        }
+                    });
+                });
+            });
+        }
+
+        // Bookmarking functionality
+        function setupBookmarking() {
+            const paperCards = document.querySelectorAll('.paper-card');
+            
+            // Add bookmark icons to any cards missing them
+            paperCards.forEach(card => {
+                const paperId = card.id;
+                let icon = card.querySelector('.bookmark-icon');
+                
+                if (!icon) {
+                    icon = document.createElement('i');
+                    icon.className = 'fas fa-bookmark bookmark-icon';
+                    icon.dataset.paperId = paperId;
+                    card.insertBefore(icon, card.firstChild);
+                } else if (!icon.dataset.paperId) {
+                    icon.dataset.paperId = paperId;
+                }
+                
+                // Initialize from localStorage
+                const isBookmarked = localStorage.getItem(`bookmark-${paperId}`) === 'true';
+                if (isBookmarked) {
+                    icon.classList.add('active');
+                    card.classList.add('bookmarked');
+                }
+                
+                // Add click event listener
+                icon.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent event bubbling
+                    const isCurrentlyBookmarked = icon.classList.contains('active');
+                    
+                    if (isCurrentlyBookmarked) {
+                        // Remove bookmark
+                        icon.classList.remove('active');
+                        card.classList.remove('bookmarked');
+                        localStorage.setItem(`bookmark-${paperId}`, 'false');
+                    } else {
+                        // Add bookmark
+                        icon.classList.add('active');
+                        card.classList.add('bookmarked');
+                        localStorage.setItem(`bookmark-${paperId}`, 'true');
+                        
+                        // Show a cool animation effect
+                        card.animate([
+                            { transform: 'scale(1)' },
+                            { transform: 'scale(1.05)', boxShadow: '0 15px 35px rgba(0, 0, 0, 0.3)' },
+                            { transform: 'scale(1)' }
+                        ], {
+                            duration: 600,
+                            easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Highlight current section in TOC
+        function highlightCurrentSection() {
+            const paperCards = document.querySelectorAll('.paper-card');
+            const tocItems = document.querySelectorAll('.toc-list li');
+            
+            window.addEventListener('scroll', () => {
+                let currentSectionId = '';
+                const scrollPosition = window.scrollY + 100;
+                
+                paperCards.forEach(card => {
+                    const offsetTop = card.offsetTop;
+                    const height = card.offsetHeight;
+                    
+                    if (scrollPosition >= offsetTop && scrollPosition < offsetTop + height) {
+                        currentSectionId = card.id;
+                    }
+                });
+                
+                tocItems.forEach(item => {
+                    item.classList.remove('active');
+                    if (item.dataset.paperId === currentSectionId) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+        }
+
+        // Scroll to Top Button
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+        window.addEventListener('scroll', () => {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                scrollTopBtn.style.display = 'flex';
+            } else {
+                scrollTopBtn.style.display = 'none';
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Smooth scroll for all anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (!targetElement) return;
+                
+                window.scrollTo({
+                    top: targetElement.offsetTop - 70,
+                    behavior: 'smooth'
+                });
+                
+                // Update URL without scrolling
+                history.pushState(null, null, targetId);
+            });
+        });
+
+        // Add animations for better UI experience
+        function addUIAnimations() {
+            // Animate paper cards on scroll
+            const paperCards = document.querySelectorAll('.paper-card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            paperCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(card);
+            });
+        }
+
+        // Add a fancy animation effect for the whole page during load
+        function addPageLoadAnimation() {
+            const mainContent = document.querySelector('.main-content');
+            const header = document.querySelector('.header');
+            
+            mainContent.style.opacity = '0';
+            mainContent.style.transform = 'translateY(20px)';
+            
+            header.style.opacity = '0';
+            header.style.transform = 'translateY(-20px)';
+            
+            setTimeout(() => {
+                header.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                header.style.opacity = '1';
+                header.style.transform = 'translateY(0)';
+                
+                setTimeout(() => {
+                    mainContent.style.transition = 'opacity 1s ease, transform 1s ease';
+                    mainContent.style.opacity = '1';
+                    mainContent.style.transform = 'translateY(0)';
+                }, 300);
+            }, 100);
+        }
+        
+        // Initialize all features when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            addPageLoadAnimation();
+            generateTableOfContents();
+            setupBookmarking(); // This will add missing bookmark icons
+            setupSearch('searchInput', 'tocList', 'li');
+            setupSearch('mainSearchInput', 'paperList', 'li');
+            setupTagFiltering();
+            highlightCurrentSection();
+            addUIAnimations();
+            updateReadingProgress();
+        });
+    </script>
+</body>
 </html>
